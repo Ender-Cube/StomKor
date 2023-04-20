@@ -5,28 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="4d97943a-8f2a-4d65-84f3-b8137f62bbc6" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/discord.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/build.gradle.kts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.jar" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gradlew" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gradlew.bat" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/settings.gradle.kts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/me/zax71/stomKor/Main.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/me/zax71/stomKor/ParkourMap.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/me/zax71/stomKor/blocks/Sign.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/me/zax71/stomKor/commands/MapCommand.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/me/zax71/stomKor/commands/arguments/ParkourMapArgument.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/me/zax71/stomKor/listeners/PlayerBlockBreak.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/me/zax71/stomKor/listeners/PlayerLogin.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/me/zax71/stomKor/utils/ConfigUtils.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/me/zax71/stomKor/utils/FullbrightDimension.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -47,6 +26,7 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="SIGN_OFF_COMMIT" value="true" />
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
@@ -118,6 +98,18 @@
       <option name="presentableId" value="Default" />
       <updated>1681753407771</updated>
     </task>
+    <task id="LOCAL-00001" summary="Initial commit (broken rn)">
+      <created>1682016231988</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1682016231988</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Initial commit (broken rn)" />
+    <option name="LAST_COMMIT_MESSAGE" value="Initial commit (broken rn)" />
   </component>
 </project>
