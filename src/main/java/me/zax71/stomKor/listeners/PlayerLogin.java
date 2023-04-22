@@ -1,12 +1,16 @@
 package me.zax71.stomKor.listeners;
 
-import me.zax71.stomKor.Main;
 import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
-import net.minestom.server.coordinate.Pos;
 import net.minestom.server.entity.Player;
 import net.minestom.server.event.EventListener;
 import net.minestom.server.event.player.PlayerLoginEvent;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.Objects;
+
+import static me.zax71.stomKor.Main.CONFIG;
+import static me.zax71.stomKor.Main.HUB;
+import static me.zax71.stomKor.utils.ConfigUtils.getPosFromConfig;
 
 
 public class PlayerLogin implements EventListener<PlayerLoginEvent> {
@@ -19,8 +23,8 @@ public class PlayerLogin implements EventListener<PlayerLoginEvent> {
     public @NotNull Result run(@NotNull PlayerLoginEvent event) {
         Player player = event.getPlayer();
         System.out.println( PlainTextComponentSerializer.plainText().serialize(player.getName()) + " joined the server");
-        event.setSpawningInstance(Main.HUB);
-        player.setRespawnPoint(new Pos(0.5, 70, 0.5));
+        event.setSpawningInstance(HUB);
+        player.setRespawnPoint(Objects.requireNonNull(getPosFromConfig(CONFIG.node("hub", "spawnPoint"))));
         return Result.SUCCESS;
     }
 }

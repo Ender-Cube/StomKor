@@ -4,10 +4,13 @@ import dev.rollczi.litecommands.LiteCommands;
 import dev.rollczi.litecommands.minestom.LiteMinestomFactory;
 import io.leangen.geantyref.TypeToken;
 import me.zax71.stomKor.blocks.Sign;
+import me.zax71.stomKor.commands.HubCommand;
 import me.zax71.stomKor.commands.MapCommand;
+import me.zax71.stomKor.commands.ReloadCommand;
 import me.zax71.stomKor.commands.arguments.ParkourMapArgument;
 import me.zax71.stomKor.listeners.PlayerBlockBreak;
 import me.zax71.stomKor.listeners.PlayerLogin;
+import me.zax71.stomKor.listeners.PlayerMove;
 import me.zax71.stomKor.utils.FullbrightDimension;
 import net.minestom.server.MinecraftServer;
 import net.minestom.server.command.CommandSender;
@@ -56,7 +59,8 @@ public class Main {
         EventNode<Event> entityNode = EventNode.type("listeners", EventFilter.ALL);
         entityNode
                 .addListener(new PlayerLogin())
-                .addListener(new PlayerBlockBreak());
+                .addListener(new PlayerBlockBreak())
+                .addListener(new PlayerMove());
         globalEventHandler.addChild(entityNode);
 
         // Register block handlers
@@ -89,6 +93,8 @@ public class Main {
 
         liteCommands = LiteMinestomFactory.builder(MinecraftServer.getServer(), MinecraftServer.getCommandManager())
                 .commandInstance(new MapCommand())
+                .commandInstance(new ReloadCommand())
+                .commandInstance(new HubCommand())
                 .argument(ParkourMap.class, new ParkourMapArgument(MinecraftServer.getServer()))
                 .register();
 

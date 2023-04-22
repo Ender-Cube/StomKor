@@ -41,9 +41,9 @@ public class ConfigUtils {
     }
     @Nullable
     public static Pos getPosFromConfig(ConfigurationNode configNode) {
-        Double[] pointList;
+        Float[] pointList;
         try {
-            pointList = configNode.get(new TypeToken<Double[]>() {});
+            pointList = configNode.get(new TypeToken<Float[]>() {});
         } catch (SerializationException e) {
 
             throw new RuntimeException(e);
@@ -53,12 +53,19 @@ public class ConfigUtils {
             return null;
         }
 
-        if (pointList.length != 3) {
-            System.out.println("Position value in config's length is out of bounds");
-            return null;
+        if (pointList.length == 3) {
+            return new Pos(pointList[0], pointList[1], pointList[2]);
         }
 
-        return new Pos(pointList[0], pointList[1], pointList[2]);
+        if (pointList.length == 5) {
+
+            return new Pos(pointList[0], pointList[1], pointList[2], pointList[3], pointList[4]);
+        }
+
+        System.out.println("Position value in config's length is out of bounds");
+        return null;
+
+
     }
     @Nullable
     public static Pos[] getPosListFromConfig(ConfigurationNode configNode) {

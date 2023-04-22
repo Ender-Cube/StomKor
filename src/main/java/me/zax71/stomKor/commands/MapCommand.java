@@ -9,6 +9,8 @@ import net.minestom.server.command.builder.Command;
 import net.minestom.server.command.builder.arguments.ArgumentType;
 import net.minestom.server.entity.Player;
 
+import static me.zax71.stomKor.Main.HUB;
+
 @Route(name = "map")
 public class MapCommand {
 
@@ -17,7 +19,7 @@ public class MapCommand {
         Player player = (Player) sender;
 
         player.sendMessage("Teleporting to " + map.name());
-        player.setInstance(map.instance());
-        player.teleport(map.spawnPoint());
+
+        map.teleport(player);
     }
 }
