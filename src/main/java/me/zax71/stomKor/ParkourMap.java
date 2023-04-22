@@ -6,6 +6,8 @@ import net.minestom.server.instance.InstanceContainer;
 import net.minestom.server.tag.Tag;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Date;
+
 import static me.zax71.stomKor.Main.HUB;
 
 /**
@@ -24,6 +26,8 @@ public record ParkourMap(InstanceContainer instance, String name, String difficu
         this.checkpoints = checkpoints;
         this.spawnPoint = spawnPoint;
         this.finishPoint = finishPoint;
+
+        instance.setTimeRate(0);
     }
 
     public void teleport(@NotNull Player player) {
@@ -37,6 +41,8 @@ public record ParkourMap(InstanceContainer instance, String name, String difficu
             player.teleport(spawnPoint);
         }
 
+        Tag<Long> startTime = Tag.Long("startTime");
+        player.setTag(startTime, new Date().getTime());
 
     }
 }

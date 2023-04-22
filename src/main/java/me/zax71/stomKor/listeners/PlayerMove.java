@@ -13,7 +13,9 @@ import net.minestom.server.sound.SoundEvent;
 import net.minestom.server.tag.Tag;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Date;
 import java.util.Objects;
+import java.util.concurrent.TimeUnit;
 
 import static me.zax71.stomKor.Main.*;
 import static me.zax71.stomKor.utils.ConfigUtils.getPosFromConfig;
@@ -57,13 +59,52 @@ public class PlayerMove implements EventListener<PlayerMoveEvent> {
             }
 
             // See if player is at finish and has completed all checkpoints
-            if (player.getPosition().sameBlock(currentMap.finishPoint()) && player.getTag(checkpoint).equals(currentMap.checkpoints().length)) {
-                player.sendMessage("Well done! You finished " + currentMap.name() + " in <timer is getting added soontm>");
+            if (player.getPosition().sameBlock(currentMap.finishPoint())) {
+                if (player.getTag(checkpoint).equals(currentMap.checkpoints().length)) {
 
-                player.setInstance(HUB, Objects.requireNonNull(getPosFromConfig(CONFIG.node("hub", "spawnPoint"))));
+                    // Calculate time by taking away the tag we set at the beginning from time now
+                    Tag<Long> startTime = Tag.Long("startTime");
+                    Long timeTakenMS = new Date().getTime()-player.getTag(startTime);
+
+                    player.sendMessage("Well done! You finished " + currentMap.name() + " in " + toHumanReadableTime(timeTakenMS));
+
+                    player.setInstance(HUB, Objects.requireNonNull(getPosFromConfig(CONFIG.node("hub", "spawnPoint"))));
+                } else {
+                    player.sendMessage("You haven't completed all the checkpoints! You are currently at checkpoint " + player.getTag(checkpoint));
+                }
+
             }
         }
 
         return SUCCESS;
+    }
+    private static String toHumanReadableTime(Long milliseconds) {
+        if (milliseconds < 60000) {
+            return zeroPrefix(TimeUnit.MILLISECONDS.toSeconds(milliseconds)) + "s";
+        } else if (milliseconds < 60000*60) {
+            String returnedValue =  zeroPrefix(TimeUnit.MILLISECONDS.toMinutes(milliseconds))
+                    + ":"
+                    + zeroPrefix(TimeUnit.MILLISECONDS.toSeconds(milliseconds) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(milliseconds)))
+                    + "s";
+            return returnedValue;
+        } else {
+            String returnedValue = zeroPrefix(TimeUnit.MILLISECONDS.toHours(milliseconds))
+                    + ":"
+                    + zeroPrefix(TimeUnit.MILLISECONDS.toMinutes(milliseconds) - TimeUnit.MINUTES.toMinutes(TimeUnit.MILLISECONDS.toHours(milliseconds)))
+                    + ":"
+                    + zeroPrefix(TimeUnit.MILLISECONDS.toSeconds(milliseconds) - (TimeUnit.MILLISECONDS.toMinutes(milliseconds) - TimeUnit.MINUTES.toMinutes(TimeUnit.MILLISECONDS.toHours(milliseconds))))
+                    + "s";
+
+            return returnedValue;
+        }
+
+    }
+
+    private static String zeroPrefix(Long number) {
+        if (number < 10) {
+            return "0" + number;
+        } else {
+            return String.valueOf(number);
+        }
     }
 }

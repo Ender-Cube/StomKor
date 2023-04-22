@@ -4,6 +4,7 @@ import dev.rollczi.litecommands.LiteCommands;
 import dev.rollczi.litecommands.minestom.LiteMinestomFactory;
 import io.leangen.geantyref.TypeToken;
 import me.zax71.stomKor.blocks.Sign;
+import me.zax71.stomKor.blocks.Skull;
 import me.zax71.stomKor.commands.HubCommand;
 import me.zax71.stomKor.commands.MapCommand;
 import me.zax71.stomKor.commands.ReloadCommand;
@@ -65,6 +66,7 @@ public class Main {
 
         // Register block handlers
         MinecraftServer.getBlockManager().registerHandler(NamespaceID.from("minecraft:sign"), Sign::new);
+        MinecraftServer.getBlockManager().registerHandler(NamespaceID.from("minecraft:skull"), Skull::new);
 
         // Register commands
 
@@ -113,6 +115,7 @@ public class Main {
                 FullbrightDimension.INSTANCE,
                 new AnvilLoader(getPath("config/worlds/hub"))
         );
+        HUB.setTimeRate(0);
 
         // Load all the maps
         for (File worldFile : Objects.requireNonNull(getPath("config/worlds/maps").toFile().listFiles())) {
