@@ -1,12 +1,21 @@
 package me.zax71.stomKor.utils;
 
+import io.leangen.geantyref.TypeToken;
+import me.zax71.stomKor.ParkourMap;
 import net.minestom.server.MinecraftServer;
+import net.minestom.server.coordinate.Point;
+import net.minestom.server.coordinate.Pos;
+import org.jetbrains.annotations.Nullable;
 import org.spongepowered.configurate.ConfigurateException;
 import org.spongepowered.configurate.ConfigurationNode;
 import org.spongepowered.configurate.hocon.HoconConfigurationLoader;
+import org.spongepowered.configurate.serialize.SerializationException;
 
 import java.io.IOException;
 import java.nio.file.Files;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Objects;
 
 import static me.zax71.stomKor.Main.*;
@@ -30,7 +39,35 @@ public class ConfigUtils {
 
         return node.getString();
     }
+    @Nullable
+    public static Pos getPosFromConfig(ConfigurationNode configNode) {
+        Double[] pointList;
+        try {
+            pointList = configNode.get(new TypeToken<Double[]>() {});
+        } catch (SerializationException e) {
 
+            throw new RuntimeException(e);
+        }
+
+        if (pointList == null) {
+            return null;
+        }
+
+        if (pointList.length != 3) {
+            System.out.println("Position value in config's length is out of bounds");
+            return null;
+        }
+
+        return new Pos(pointList[0], pointList[1], pointList[2]);
+    }
+    @Nullable
+    public static Pos[] getPosListFromConfig(ConfigurationNode configNode) {
+        List<Pos> outArrayList = new ArrayList<>();
+        for (ConfigurationNode currentNode : configNode.childrenList()) {
+            outArrayList.add(getPosFromConfig(currentNode));
+        }
+        return outArrayList.toArray(new Pos[0]);
+    }
     public static void initConfig() {
 
         // Create config directories

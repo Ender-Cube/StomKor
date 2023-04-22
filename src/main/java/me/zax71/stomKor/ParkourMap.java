@@ -6,16 +6,18 @@ import net.minestom.server.instance.InstanceContainer;
 /**
  * A record that contains all relevant data for a parkour map
  * @param instance
- * @param name
+ * @param name No spaces allowed
  * @param difficulty
  * @param checkpoints
  */
-public record ParkourMap(InstanceContainer instance, String name, String difficulty, Pos[] checkpoints) {
+public record ParkourMap(InstanceContainer instance, String name, String difficulty, Pos[] checkpoints, Pos spawnPoint, Pos finishPoint) {
 
-    public ParkourMap(InstanceContainer instance, String name, String difficulty, Pos[] checkpoints) {
+    public ParkourMap(InstanceContainer instance, String name, String difficulty, Pos[] checkpoints, Pos spawnPoint, Pos finishPoint) {
         this.instance = instance;
         this.name = name;
         this.difficulty = difficulty;
         this.checkpoints = checkpoints;
+        this.spawnPoint = spawnPoint;
+        this.finishPoint = finishPoint;
     }
 }

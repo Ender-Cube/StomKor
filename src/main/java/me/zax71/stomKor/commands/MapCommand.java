@@ -7,12 +7,17 @@ import me.zax71.stomKor.ParkourMap;
 import net.minestom.server.command.CommandSender;
 import net.minestom.server.command.builder.Command;
 import net.minestom.server.command.builder.arguments.ArgumentType;
+import net.minestom.server.entity.Player;
 
 @Route(name = "map")
 public class MapCommand {
 
     @Execute
     void execute(CommandSender sender, @Arg ParkourMap map) {
-        sender.sendMessage("You selected " + map.name());
+        Player player = (Player) sender;
+
+        player.sendMessage("Teleporting to " + map.name());
+        player.setInstance(map.instance());
+        player.teleport(map.spawnPoint());
     }
 }

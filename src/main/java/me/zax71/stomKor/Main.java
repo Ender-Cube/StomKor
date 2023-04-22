@@ -2,8 +2,10 @@ package me.zax71.stomKor;
 
 import dev.rollczi.litecommands.LiteCommands;
 import dev.rollczi.litecommands.minestom.LiteMinestomFactory;
+import io.leangen.geantyref.TypeToken;
 import me.zax71.stomKor.blocks.Sign;
 import me.zax71.stomKor.commands.MapCommand;
+import me.zax71.stomKor.commands.arguments.ParkourMapArgument;
 import me.zax71.stomKor.listeners.PlayerBlockBreak;
 import me.zax71.stomKor.listeners.PlayerLogin;
 import me.zax71.stomKor.utils.FullbrightDimension;
@@ -18,19 +20,20 @@ import net.minestom.server.extras.MojangAuth;
 import net.minestom.server.instance.*;
 import net.minestom.server.utils.NamespaceID;
 import org.spongepowered.configurate.CommentedConfigurationNode;
-import org.spongepowered.configurate.ConfigurateException;
+import org.spongepowered.configurate.ConfigurationNode;
 import org.spongepowered.configurate.hocon.HoconConfigurationLoader;
+import org.spongepowered.configurate.serialize.SerializationException;
 
 import java.io.File;
-import java.io.IOException;
 import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
-import static me.zax71.stomKor.utils.ConfigUtils.initConfig;
+import static me.zax71.stomKor.utils.ConfigUtils.*;
 
 public class Main {
     public static InstanceContainer HUB;
@@ -86,6 +89,7 @@ public class Main {
 
         liteCommands = LiteMinestomFactory.builder(MinecraftServer.getServer(), MinecraftServer.getCommandManager())
                 .commandInstance(new MapCommand())
+                .argument(ParkourMap.class, new ParkourMapArgument(MinecraftServer.getServer()))
                 .register();
 
     }
@@ -104,16 +108,23 @@ public class Main {
                 new AnvilLoader(getPath("config/worlds/hub"))
         );
 
-        for (Path worldFile : getPath("config/worlds/maps")) {
-            if (Files.isDirectory(worldFile)) {
+        // Load all the maps
+        for (File worldFile : Objects.requireNonNull(getPath("config/worlds/maps").toFile().listFiles())) {
+            if (worldFile.isDirectory()) {
+                String name = worldFile.getName();
+                ConfigurationNode configNode = CONFIG.node("maps", name);
+
+                System.out.println("loading map " + name);
                 parkourMaps.add(new ParkourMap(
                         MinecraftServer.getInstanceManager().createInstanceContainer(
                                 FullbrightDimension.INSTANCE,
-                                new AnvilLoader(worldFile)
+                                new AnvilLoader(worldFile.getPath())
                         ),
-                        "fancy name",
-                        "easy",
-                        new Pos[]{new Pos(0, 0, 0), new Pos(0, 10, 5)}
+                        name,
+                        configNode.node("difficulty").getString(),
+                        getPosListFromConfig(configNode.node("checkpoints")),
+                        getPosFromConfig(configNode.node("spawn")),
+                        getPosFromConfig(configNode.node("finish"))
                 ));
             }
         }
