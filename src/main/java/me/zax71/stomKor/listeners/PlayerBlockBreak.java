@@ -16,6 +16,7 @@ import static me.zax71.stomKor.Main.CONFIG;
 import static me.zax71.stomKor.utils.ConfigUtils.getOrSetDefault;
 import static me.zax71.stomKor.utils.ConfigUtils.saveConfig;
 
+// Stops players from breaking blocks in all worlds
 public class PlayerBlockBreak implements EventListener<PlayerBlockBreakEvent> {
     @Override
     public @NotNull Class<PlayerBlockBreakEvent> eventType() {
@@ -30,6 +31,8 @@ public class PlayerBlockBreak implements EventListener<PlayerBlockBreakEvent> {
 
         // https://github.com/Minestom/Minestom/discussions/1596
         event.setCancelled(true);
+
+        // Send an error message
         Component message = MiniMessage.miniMessage().deserialize(
                 getOrSetDefault(protectionErrorNode, "<bold><red>Hey!</bold> <grey>Sorry, but you can't break that block here")
         );

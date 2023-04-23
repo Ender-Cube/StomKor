@@ -14,6 +14,9 @@ import static me.zax71.stomKor.Main.CONFIG;
 import static me.zax71.stomKor.Main.HUB;
 import static me.zax71.stomKor.utils.ConfigUtils.getPosFromConfig;
 
+/**
+ * Teleports the player to hub
+ */
 @Route(name = "hub")
 public class HubCommand {
 

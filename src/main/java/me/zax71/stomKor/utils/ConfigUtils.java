@@ -1,7 +1,6 @@
 package me.zax71.stomKor.utils;
 
 import io.leangen.geantyref.TypeToken;
-import me.zax71.stomKor.ParkourMap;
 import net.minestom.server.MinecraftServer;
 import net.minestom.server.coordinate.Point;
 import net.minestom.server.coordinate.Pos;
@@ -45,7 +44,6 @@ public class ConfigUtils {
         try {
             pointList = configNode.get(new TypeToken<Float[]>() {});
         } catch (SerializationException e) {
-
             throw new RuntimeException(e);
         }
 
@@ -58,18 +56,17 @@ public class ConfigUtils {
         }
 
         if (pointList.length == 5) {
-
             return new Pos(pointList[0], pointList[1], pointList[2], pointList[3], pointList[4]);
         }
 
         System.out.println("Position value in config's length is out of bounds");
         return null;
-
-
     }
     @Nullable
     public static Pos[] getPosListFromConfig(ConfigurationNode configNode) {
         List<Pos> outArrayList = new ArrayList<>();
+
+        // Loop through the list at the specific node and add it to our out array list
         for (ConfigurationNode currentNode : configNode.childrenList()) {
             outArrayList.add(getPosFromConfig(currentNode));
         }

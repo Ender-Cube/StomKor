@@ -1,6 +1,7 @@
 package me.zax71.stomKor.listeners;
 
 import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
+import net.minestom.server.entity.GameMode;
 import net.minestom.server.entity.Player;
 import net.minestom.server.event.EventListener;
 import net.minestom.server.event.player.PlayerLoginEvent;
@@ -25,6 +26,7 @@ public class PlayerLogin implements EventListener<PlayerLoginEvent> {
         System.out.println( PlainTextComponentSerializer.plainText().serialize(player.getName()) + " joined the server");
         event.setSpawningInstance(HUB);
         player.setRespawnPoint(Objects.requireNonNull(getPosFromConfig(CONFIG.node("hub", "spawnPoint"))));
+        player.setGameMode(GameMode.ADVENTURE);
         return Result.SUCCESS;
     }
 }

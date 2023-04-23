@@ -8,8 +8,6 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Date;
 
-import static me.zax71.stomKor.Main.HUB;
-
 /**
  * A record that contains all relevant data for a parkour map
  * @param instance
@@ -17,20 +15,21 @@ import static me.zax71.stomKor.Main.HUB;
  * @param difficulty
  * @param checkpoints
  */
-public record ParkourMap(InstanceContainer instance, String name, String difficulty, Pos[] checkpoints, Pos spawnPoint, Pos finishPoint) {
+public record ParkourMap(InstanceContainer instance, String name, String difficulty, Pos[] checkpoints, Pos spawnPoint, Pos finishPoint, Short deathY) {
 
-    public ParkourMap(InstanceContainer instance, String name, String difficulty, Pos[] checkpoints, Pos spawnPoint, Pos finishPoint) {
+    public ParkourMap(InstanceContainer instance, String name, String difficulty, Pos[] checkpoints, Pos spawnPoint, Pos finishPoint, Short deathY) {
         this.instance = instance;
         this.name = name;
         this.difficulty = difficulty;
         this.checkpoints = checkpoints;
         this.spawnPoint = spawnPoint;
         this.finishPoint = finishPoint;
+        this.deathY = deathY;
 
         instance.setTimeRate(0);
     }
 
-    public void teleport(@NotNull Player player) {
+    public void teleportSpawn(@NotNull Player player) {
         if (player.getInstance() != instance){
             player.setInstance(instance, spawnPoint);
 
@@ -41,8 +40,13 @@ public record ParkourMap(InstanceContainer instance, String name, String difficu
             player.teleport(spawnPoint);
         }
 
-        Tag<Long> startTime = Tag.Long("startTime");
-        player.setTag(startTime, new Date().getTime());
 
+        Tag<Boolean> startedTimer = Tag.Boolean("startedTimer");
+        player.setTag(startedTimer, false);
+
+    }
+
+    public void teleportCheckpoint(Player player) {
+        Tag<Integer> checkpoint = Tag.Integer("checkpoint");
     }
 }

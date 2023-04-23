@@ -5,12 +5,11 @@ import dev.rollczi.litecommands.command.execute.Execute;
 import dev.rollczi.litecommands.command.route.Route;
 import me.zax71.stomKor.ParkourMap;
 import net.minestom.server.command.CommandSender;
-import net.minestom.server.command.builder.Command;
-import net.minestom.server.command.builder.arguments.ArgumentType;
 import net.minestom.server.entity.Player;
 
-import static me.zax71.stomKor.Main.HUB;
-
+/**
+ * Teleports the player to a parkour map
+ */
 @Route(name = "map")
 public class MapCommand {
 
@@ -20,6 +19,6 @@ public class MapCommand {
 
         player.sendMessage("Teleporting to " + map.name());
 
-        map.teleport(player);
+        map.teleportSpawn(player);
     }
 }

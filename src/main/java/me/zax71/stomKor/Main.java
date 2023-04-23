@@ -124,17 +124,22 @@ public class Main {
                 ConfigurationNode configNode = CONFIG.node("maps", name);
 
                 System.out.println("loading map " + name);
-                parkourMaps.add(new ParkourMap(
-                        MinecraftServer.getInstanceManager().createInstanceContainer(
-                                FullbrightDimension.INSTANCE,
-                                new AnvilLoader(worldFile.getPath())
-                        ),
-                        name,
-                        configNode.node("difficulty").getString(),
-                        getPosListFromConfig(configNode.node("checkpoints")),
-                        getPosFromConfig(configNode.node("spawn")),
-                        getPosFromConfig(configNode.node("finish"))
-                ));
+                try {
+                    parkourMaps.add(new ParkourMap(
+                            MinecraftServer.getInstanceManager().createInstanceContainer(
+                                    FullbrightDimension.INSTANCE,
+                                    new AnvilLoader(worldFile.getPath())
+                            ),
+                            name,
+                            configNode.node("difficulty").getString(),
+                            getPosListFromConfig(configNode.node("checkpoints")),
+                            getPosFromConfig(configNode.node("spawn")),
+                            getPosFromConfig(configNode.node("finish")),
+                            configNode.node("death-y").get(Short.class)
+                    ));
+                } catch (SerializationException e) {
+                    throw new RuntimeException(e);
+                }
             }
         }
     }

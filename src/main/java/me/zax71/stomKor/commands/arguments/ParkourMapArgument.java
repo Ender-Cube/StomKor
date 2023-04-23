@@ -14,6 +14,10 @@ import java.util.stream.Collectors;
 
 import static me.zax71.stomKor.Main.parkourMaps;
 
+/**
+ * Tab autocomplete handler for
+ * {@link ParkourMap}
+ */
 @ArgumentName("parkourMap")
 public class ParkourMapArgument implements OneArgument<ParkourMap> {
 
@@ -23,6 +27,7 @@ public class ParkourMapArgument implements OneArgument<ParkourMap> {
         this.server = server;
     }
 
+    // Acceptable inputs
     @Override
     public Result<ParkourMap, Object> parse(LiteInvocation invocation, String argument) {
         return Option.ofOptional(
@@ -33,8 +38,12 @@ public class ParkourMapArgument implements OneArgument<ParkourMap> {
                 .toResult("Map does not exist");
     }
 
+    // List for tab complete
     @Override
     public List<Suggestion> suggest(LiteInvocation invocation) {
-        return parkourMaps.stream().map(ParkourMap::name).map(Suggestion::of).collect(Collectors.toList());
+        return parkourMaps.stream()
+                .map(ParkourMap::name)
+                .map(Suggestion::of)
+                .collect(Collectors.toList());
     }
 }
