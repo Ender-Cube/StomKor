@@ -30,6 +30,7 @@ public class PlayerMove implements EventListener<PlayerMoveEvent> {
     @Override
     public @NotNull net.minestom.server.event.EventListener.Result run(@NotNull PlayerMoveEvent event) {
         Player player = event.getPlayer();
+
         if (player.getInstance() == HUB) {
             try {
                 if (player.getPosition().y() < CONFIG.node("hub", "death-y").get(Integer.class)) {
@@ -59,30 +60,33 @@ public class PlayerMove implements EventListener<PlayerMoveEvent> {
             player.sendMessage("Started Timer");
         }
 
-        // See if player is below the death barrier
+        // See if player is below the death barrier and if so, teleport them to spawn or current checkpoint
         if (player.getPosition().y() < currentMap.deathY()) {
-            player.teleport(currentMap.spawnPoint());
+            if (player.getTag(checkpoint) == -1) {
+                player.teleport(currentMap.spawnPoint());
+            } else {
+                player.teleport(currentMap.checkpoints()[player.getTag(checkpoint)]);
+            }
+
         }
 
-        // See if player is at checkpoint
-        // Can be optimised as player cannot be at checkpoint 5 before doing 4
-        int i = 0;
-        for (Pos checkingPos : currentMap.checkpoints()) {
-            i++;
-            if (player.getPosition().sameBlock(checkingPos)) {
+        // See if player is at checkpoint:
+        if (player.getTag(checkpoint) < currentMap.checkpoints().length-1) {
+            // Check if the player is at their current checkpoint
+            if (player.getPosition().sameBlock(currentMap.checkpoints()[player.getTag(checkpoint)+1])) {
 
-                // Increment the checkpoint tag if the player is at a future checkpoint relative to their last one
-                if (player.getTag(checkpoint) < i) {
-                    player.setTag(checkpoint, i);
-                    player.sendMessage("Checkpoint " + i + " completed!");
-                    player.playSound(Sound.sound(SoundEvent.ENTITY_PLAYER_LEVELUP, Sound.Source.PLAYER, 1f, 1f));
-                }
+                // Increment the checkpoint tag, send message and play a sound
+                player.setTag(checkpoint, player.getTag(checkpoint)+1);
+                player.sendMessage("Checkpoint " + (player.getTag(checkpoint)+1) + " completed!");
+                player.playSound(Sound.sound(SoundEvent.ENTITY_PLAYER_LEVELUP, Sound.Source.PLAYER, 1f, 1f));
             }
         }
 
+
+
         // See if player is at finish and has completed all checkpoints
         if (player.getPosition().sameBlock(currentMap.finishPoint())) {
-            if (player.getTag(checkpoint).equals(currentMap.checkpoints().length)) {
+            if (player.getTag(checkpoint).equals(currentMap.checkpoints().length-1)) {
 
                 // Calculate time by taking away the tag we set at the beginning from time now
                 Tag<Long> startTime = Tag.Long("startTime");
@@ -93,7 +97,7 @@ public class PlayerMove implements EventListener<PlayerMoveEvent> {
 
                 player.setInstance(HUB, Objects.requireNonNull(getPosFromConfig(CONFIG.node("hub", "spawnPoint"))));
             } else {
-                player.sendMessage("You haven't completed all the checkpoints! You are currently at checkpoint " + player.getTag(checkpoint));
+                player.sendMessage("You haven't completed all the checkpoints! You are currently at checkpoint " + (player.getTag(checkpoint)+1));
             }
 
         }
