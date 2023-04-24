@@ -4,11 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="4d97943a-8f2a-4d65-84f3-b8137f62bbc6" name="Changes" comment="Fix checkpoing">
+    <list default="true" id="4d97943a-8f2a-4d65-84f3-b8137f62bbc6" name="Changes" comment="Ignore .idea/">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle.kts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/zax71/stomKor/ParkourMap.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/zax71/stomKor/ParkourMap.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/zax71/stomKor/listeners/PlayerMove.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/zax71/stomKor/listeners/PlayerMove.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -152,7 +150,14 @@
       <option name="project" value="LOCAL" />
       <updated>1682240899866</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="Fix checkpoint skipping, teleport to checkpoint on death and bump version to 1.1.0">
+      <created>1682355110521</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1682355110521</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -164,6 +169,7 @@
     <MESSAGE value="Added checkpoints and finishing logic. Minimum viable product reached :tada:" />
     <MESSAGE value="Add block handler for skulls and add a timer" />
     <MESSAGE value="General bug fixes and timer accuracy improvements. I forget what I changed xD" />
-    <option name="LAST_COMMIT_MESSAGE" value="General bug fixes and timer accuracy improvements. I forget what I changed xD" />
+    <MESSAGE value="Fix checkpoint skipping, teleport to checkpoint on death and bump version to 1.1.0" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fix checkpoint skipping, teleport to checkpoint on death and bump version to 1.1.0" />
   </component>
 </project>
