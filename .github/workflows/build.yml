@@ -7,7 +7,7 @@ on:
     branches: [ "main" ]
 
 jobs:
-  gradle:
+  Gradle-Build:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
@@ -20,7 +20,9 @@ jobs:
       uses: gradle/gradle-build-action@v2
     
     - name: Execute Gradle build
-      run: ./gradlew build
+      uses: gradle/gradle-build-action@v2
+      with:
+        arguments: build
 
     - name: Upload artifact
       uses: actions/upload-artifact@v3
