@@ -26,4 +26,4 @@ jobs:
       uses: actions/upload-artifact@v3
       with:
         name: StomKor
-        path: /build/libs/StomKor-*.*.*.jar
+        path: build/libs/StomKor-*.*.*.jar
