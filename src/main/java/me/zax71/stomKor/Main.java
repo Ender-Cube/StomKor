@@ -2,7 +2,6 @@ package me.zax71.stomKor;
 
 import dev.rollczi.litecommands.LiteCommands;
 import dev.rollczi.litecommands.minestom.LiteMinestomFactory;
-import io.leangen.geantyref.TypeToken;
 import me.zax71.stomKor.blocks.Sign;
 import me.zax71.stomKor.blocks.Skull;
 import me.zax71.stomKor.commands.HubCommand;
@@ -13,9 +12,9 @@ import me.zax71.stomKor.listeners.PlayerBlockBreak;
 import me.zax71.stomKor.listeners.PlayerLogin;
 import me.zax71.stomKor.listeners.PlayerMove;
 import me.zax71.stomKor.utils.FullbrightDimension;
+import me.zax71.stomKor.utils.SQLiteHandler;
 import net.minestom.server.MinecraftServer;
 import net.minestom.server.command.CommandSender;
-import net.minestom.server.coordinate.Pos;
 import net.minestom.server.event.Event;
 import net.minestom.server.event.EventFilter;
 import net.minestom.server.event.EventNode;
@@ -33,7 +32,6 @@ import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
@@ -45,6 +43,7 @@ public class Main {
 
     public static HoconConfigurationLoader LOADER;
     public static List<ParkourMap> parkourMaps = new ArrayList<>();
+    public static SQLiteHandler SQLite;
 
     private static LiteCommands<CommandSender> liteCommands;
 
@@ -78,7 +77,11 @@ public class Main {
 
         initWorlds();
         initCommands();
+        SQLite = new SQLiteHandler("database.db");
 
+        SQLite.getTimePlayer("Zax71", 1);
+        SQLite.getTimePlayer("Zax71", 2);
+        SQLite.getTimePlayer("Zax71", 3);
 
     }
     public static Path getPath(String path) {
