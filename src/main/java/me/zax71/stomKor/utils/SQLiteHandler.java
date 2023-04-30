@@ -1,7 +1,9 @@
 package me.zax71.stomKor.utils;
 
+import net.minestom.server.MinecraftServer;
 import net.minestom.server.entity.Player;
 import net.minestom.server.entity.fakeplayer.FakePlayer;
+import net.minestom.server.network.ConnectionManager;
 import net.minestom.server.utils.mojang.MojangUtils;
 
 import java.sql.*;
@@ -78,7 +80,6 @@ public class SQLiteHandler {
      * @return The time
      */
     public Long getTimeOverall(String course, int index) {
-        List<Object> outList = new ArrayList <Object>();
         String sql = "SELECT * FROM playerTimes WHERE course = ? ORDER BY time ASC LIMIT 1 OFFSET ?;";
 
         try {
@@ -101,7 +102,7 @@ public class SQLiteHandler {
      * Retrieves the player with the overall nth best time
      * @param course the course to get data for
      * @param index The nth time you want
-     * @return the player
+     * @return the player's name
      */
     public String getPlayerOverall(String course, int index) {
         String sql = "SELECT * FROM playerTimes WHERE course = ? ORDER BY time ASC LIMIT 1 OFFSET ?;";
@@ -111,9 +112,14 @@ public class SQLiteHandler {
             preparedStatement.setString(1, course);
             preparedStatement.setInt(2, index-1);
             ResultSet resultSet = preparedStatement.executeQuery();
-            UUID uuid = (UUID.fromString(resultSet.getString("player"));
+            UUID uuid = (UUID.fromString(resultSet.getString("player")));
             while (resultSet.next()) {
-                return MojangUtils.fromUuid(String.valueOf(uuid)).getAsString();
+                return Objects.requireNonNull(
+                        MojangUtils.fromUuid(
+                                uuid.toString()
+                        ))
+                        .get("name")
+                        .getAsString();
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);

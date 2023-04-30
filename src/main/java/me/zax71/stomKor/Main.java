@@ -79,8 +79,7 @@ public class Main {
         initCommands();
         SQLite = new SQLiteHandler("database.db");
 
-
-        System.out.println(SQLite.getPlayerOverall("easy-1", 1).getName());
+        System.out.println(SQLite.getPlayerOverall("easy-1", 1));
 
     }
     public static Path getPath(String path) {
