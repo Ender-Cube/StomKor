@@ -1,14 +1,9 @@
 package me.zax71.stomKor.utils;
 
-import net.minestom.server.MinecraftServer;
 import net.minestom.server.entity.Player;
-import net.minestom.server.entity.fakeplayer.FakePlayer;
-import net.minestom.server.network.ConnectionManager;
 import net.minestom.server.utils.mojang.MojangUtils;
 
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -142,9 +137,7 @@ public class SQLiteHandler {
                       FROM playerTimes
                     ) AS subQuery
                     WHERE row_num <= 10
-                  );
-                  
-                                
+                  );           
                 """;
 
         try {
@@ -180,7 +173,6 @@ public class SQLiteHandler {
      * @param fileName name for the file with .db of .sqlite extension
      */
     private void createDatabase(String fileName) {
-
         String url = "jdbc:sqlite:" + getPath("config").toAbsolutePath() + "/" + fileName;
 
         try {

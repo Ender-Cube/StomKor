@@ -5,11 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="4d97943a-8f2a-4d65-84f3-b8137f62bbc6" name="Changes" comment="Some SQL is added, but I forgot that other courses exist, time to start again!">
-      <change afterPath="$PROJECT_DIR$/dockerfile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/me/zax71/stomKor/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/zax71/stomKor/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/zax71/stomKor/commands/HubCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/zax71/stomKor/commands/HubCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/zax71/stomKor/listeners/PlayerMove.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/zax71/stomKor/listeners/PlayerMove.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/me/zax71/stomKor/utils/SQLiteHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/zax71/stomKor/utils/SQLiteHandler.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -22,6 +18,16 @@
       <ProjectState />
     </projectState>
   </component>
+  <component name="ExternalProjectsManager">
+    <system id="GRADLE">
+      <state>
+        <task path="$PROJECT_DIR$">
+          <activation />
+        </task>
+        <projects_view />
+      </state>
+    </system>
+  </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
@@ -30,6 +36,11 @@
     </option>
   </component>
   <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="main" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
     <option name="SIGN_OFF_COMMIT" value="true" />
   </component>
@@ -42,15 +53,15 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "git-widget-placeholder": "main",
-    "last_opened_file_path": "/home/zax/Documents/coding/Java/Minestom/lightHub",
-    "settings.editor.selected.configurable": "editor.preferences.fonts.default"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/home/zax/Documents/coding/Java/Minestom/lightHub&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;editor.preferences.fonts.default&quot;
   }
-}]]></component>
+}</component>
   <component name="RunManager" selected="Gradle.Build">
     <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="me.zax71.stomKor.Main" />
