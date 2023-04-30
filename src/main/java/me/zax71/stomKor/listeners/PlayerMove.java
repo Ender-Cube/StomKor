@@ -17,6 +17,7 @@ import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 import static me.zax71.stomKor.Main.*;
+import static me.zax71.stomKor.utils.ComponentUtils.toHumanReadableTime;
 import static me.zax71.stomKor.utils.ConfigUtils.getPosFromConfig;
 import static net.minestom.server.event.EventListener.Result.SUCCESS;
 
@@ -103,40 +104,7 @@ public class PlayerMove implements EventListener<PlayerMoveEvent> {
         }
         return SUCCESS;
     }
-    private static String toHumanReadableTime(Long milliseconds) {
-        if (milliseconds < 60000) {
-            return zeroPrefix(milliseconds / 1000.0) + "s";
 
-        } else if (milliseconds < 60000*60) {
-            return zeroPrefix(TimeUnit.MILLISECONDS.toMinutes(milliseconds))
-                    + ":"
-                    + zeroPrefix(milliseconds / 1000.0 - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(milliseconds)))
-                    + "s";
 
-        } else {
-            return zeroPrefix(TimeUnit.MILLISECONDS.toHours(milliseconds))
-                    + ":"
-                    + zeroPrefix(TimeUnit.MILLISECONDS.toMinutes(milliseconds) - TimeUnit.MINUTES.toMinutes(TimeUnit.MILLISECONDS.toHours(milliseconds)))
-                    + ":"
-                    + zeroPrefix(milliseconds / 1000.0 - (TimeUnit.MILLISECONDS.toMinutes(milliseconds) - TimeUnit.MINUTES.toMinutes(TimeUnit.MILLISECONDS.toHours(milliseconds))))
-                    + "s";
-        }
 
-    }
-
-    private static String zeroPrefix(Double number) {
-        if (number < 10) {
-            return "0" + new DecimalFormat("#.###").format(number);
-        } else {
-            return String.valueOf(new DecimalFormat("#.###").format(number));
-        }
-    }
-
-    private static String zeroPrefix(Long number) {
-        if (number < 10) {
-            return "0" + number;
-        } else {
-            return String.valueOf(number);
-        }
-    }
 }

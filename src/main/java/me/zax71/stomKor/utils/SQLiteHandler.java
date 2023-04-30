@@ -1,7 +1,9 @@
 package me.zax71.stomKor.utils;
 
+import com.google.gson.JsonObject;
 import net.minestom.server.entity.Player;
 import net.minestom.server.utils.mojang.MojangUtils;
+import org.jetbrains.annotations.Nullable;
 
 import java.sql.*;
 import java.util.Objects;
@@ -99,6 +101,7 @@ public class SQLiteHandler {
      * @param index The nth time you want
      * @return the player's name
      */
+    @Nullable
     public String getPlayerOverall(String course, int index) {
         String sql = "SELECT * FROM playerTimes WHERE course = ? ORDER BY time ASC LIMIT 1 OFFSET ?;";
 
@@ -107,20 +110,21 @@ public class SQLiteHandler {
             preparedStatement.setString(1, course);
             preparedStatement.setInt(2, index-1);
             ResultSet resultSet = preparedStatement.executeQuery();
-            UUID uuid = (UUID.fromString(resultSet.getString("player")));
-            while (resultSet.next()) {
-                return Objects.requireNonNull(
-                        MojangUtils.fromUuid(
-                                uuid.toString()
-                        ))
-                        .get("name")
-                        .getAsString();
+
+            JsonObject playerNameObject = MojangUtils.fromUuid(resultSet.getString("player"));
+
+            if (playerNameObject == null) {
+                return null;
             }
+
+            return playerNameObject
+                    .get("name")
+                    .getAsString();
+
+
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-
-        return null;
     }
     /**
      * Removes all but the top ten times per player for all players

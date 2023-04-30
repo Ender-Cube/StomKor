@@ -5,6 +5,7 @@ import dev.rollczi.litecommands.minestom.LiteMinestomFactory;
 import me.zax71.stomKor.blocks.Sign;
 import me.zax71.stomKor.blocks.Skull;
 import me.zax71.stomKor.commands.HubCommand;
+import me.zax71.stomKor.commands.LeaderboardCommand;
 import me.zax71.stomKor.commands.MapCommand;
 import me.zax71.stomKor.commands.ReloadCommand;
 import me.zax71.stomKor.commands.arguments.ParkourMapArgument;
@@ -94,6 +95,7 @@ public class Main {
                 .commandInstance(new MapCommand())
                 .commandInstance(new ReloadCommand())
                 .commandInstance(new HubCommand())
+                .commandInstance(new LeaderboardCommand())
                 .argument(ParkourMap.class, new ParkourMapArgument(MinecraftServer.getServer()))
                 .register();
     }

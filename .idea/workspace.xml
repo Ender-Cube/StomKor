@@ -5,7 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="4d97943a-8f2a-4d65-84f3-b8137f62bbc6" name="Changes" comment="Some SQL is added, but I forgot that other courses exist, time to start again!">
+      <change afterPath="$PROJECT_DIR$/src/main/java/me/zax71/stomKor/commands/LeaderboardCommand.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/me/zax71/stomKor/utils/ComponentUtils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle.kts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/me/zax71/stomKor/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/zax71/stomKor/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/zax71/stomKor/listeners/PlayerMove.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/zax71/stomKor/listeners/PlayerMove.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/me/zax71/stomKor/utils/SQLiteHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/zax71/stomKor/utils/SQLiteHandler.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />

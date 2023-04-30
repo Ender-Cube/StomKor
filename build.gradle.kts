@@ -15,11 +15,13 @@ repositories {
 
 dependencies {
     // Minestom
-    implementation("com.github.Minestom.Minestom:Minestom:8ad2c7701f")
+    implementation("com.github.Minestom.Minestom:Minestom:79ce9570ea")
 
     // Kyori stuff (Adventure)
     implementation("net.kyori:adventure-text-serializer-plain:4.13.1")
-    implementation("net.kyori:adventure-text-minimessage:4.13.0")
+    implementation("net.kyori:adventure-text-minimessage:4.13.1")
+
+    // Configuration API
     implementation("org.spongepowered:configurate-hocon:4.1.2")
 
     // LiteCommands (command framework)
