@@ -79,9 +79,8 @@ public class Main {
         initCommands();
         SQLite = new SQLiteHandler("database.db");
 
-        SQLite.getTimePlayer("Zax71", 1);
-        SQLite.getTimePlayer("Zax71", 2);
-        SQLite.getTimePlayer("Zax71", 3);
+
+        System.out.println(SQLite.getPlayerOverall("easy-1", 1).getName());
 
     }
     public static Path getPath(String path) {
@@ -94,15 +93,12 @@ public class Main {
     }
 
     private static void initCommands() {
-
-
         liteCommands = LiteMinestomFactory.builder(MinecraftServer.getServer(), MinecraftServer.getCommandManager())
                 .commandInstance(new MapCommand())
                 .commandInstance(new ReloadCommand())
                 .commandInstance(new HubCommand())
                 .argument(ParkourMap.class, new ParkourMapArgument(MinecraftServer.getServer()))
                 .register();
-
     }
 
     private static void initWorlds() {

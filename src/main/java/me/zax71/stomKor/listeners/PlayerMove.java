@@ -94,7 +94,7 @@ public class PlayerMove implements EventListener<PlayerMoveEvent> {
                 player.sendMessage("Stopped Timer");
 
                 player.sendMessage("Well done! You finished " + currentMap.name() + " in " + toHumanReadableTime(timeTakenMS));
-
+                SQLite.addTime(player, currentMap.name(), timeTakenMS);
                 player.setInstance(HUB, Objects.requireNonNull(getPosFromConfig(CONFIG.node("hub", "spawnPoint"))));
             } else {
                 player.sendMessage("You haven't completed all the checkpoints! You are currently at checkpoint " + (player.getTag(checkpoint)+1));

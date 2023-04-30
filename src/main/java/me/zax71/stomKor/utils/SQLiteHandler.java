@@ -2,10 +2,13 @@ package me.zax71.stomKor.utils;
 
 import net.minestom.server.entity.Player;
 import net.minestom.server.entity.fakeplayer.FakePlayer;
+import net.minestom.server.utils.mojang.MojangUtils;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+import java.util.UUID;
 
 import static me.zax71.stomKor.Main.getPath;
 
@@ -29,13 +32,14 @@ public class SQLiteHandler {
      * @param player The player the time belongs to
      * @param time The time in milliseconds
      */
-    public void addTime(String player, Long time) {
-        String sql = "INSERT INTO playerTimes(player,time) VALUES(?,?)";
+    public void addTime(Player player, String course, Long time) {
+        String sql = "INSERT INTO playerTimes(player,course,time) VALUES(?,?,?)";
 
         try {
             PreparedStatement preparedStatement = CONNECTION.prepareStatement(sql);
-            preparedStatement.setString(1, player);
-            preparedStatement.setLong(2, time);
+            preparedStatement.setString(1, String.valueOf(player.getUuid()));
+            preparedStatement.setString(2, course);
+            preparedStatement.setLong(3, time);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -46,47 +50,77 @@ public class SQLiteHandler {
      * Gets the specified players best times ordered by an index
      * @param player player to retrieve data from
      * @param index time to get, 1 for best
+     * @return the nth best time of that player
      */
-    public void getTimePlayer(String player, int index) {
-        String sql = "SELECT * FROM playerTimes WHERE player = ? ORDER BY time DESC LIMIT 1 OFFSET ?;";
+    public Long getTimePlayer(Player player, String course, int index) {
+        String sql = "SELECT * FROM playerTimes WHERE player = ? AND course = ? ORDER BY time ASC LIMIT 1 OFFSET ?;";
 
         try {
             PreparedStatement preparedStatement = CONNECTION.prepareStatement(sql);
-            preparedStatement.setString(1, player);
-            preparedStatement.setInt(2, index-1);
+            preparedStatement.setString(1, String.valueOf(player.getUuid()));
+            preparedStatement.setString(2, course);
+            preparedStatement.setInt(3, index-1);
             ResultSet resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) {
-                System.out.println(resultSet.getLong("time"));
+                return resultSet.getLong("time");
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+        return null;
     }
 
     /**
-     * Gets the overall best times ordered by an index
-     * @param index time to get, 1 for best
+     * Retrieves the overall nth best time
+     * @param course The course to get data for
+     * @param index The nth time you want
+     * @return The time
      */
-    public List getTimeOverall(int index) {
-        //TODO unbreak mec
+    public Long getTimeOverall(String course, int index) {
         List<Object> outList = new ArrayList <Object>();
-        String sql = "SELECT * FROM playerTimes ORDER BY time DESC LIMIT 1 OFFSET ?;";
+        String sql = "SELECT * FROM playerTimes WHERE course = ? ORDER BY time ASC LIMIT 1 OFFSET ?;";
 
         try {
             PreparedStatement preparedStatement = CONNECTION.prepareStatement(sql);
-            preparedStatement.setString(1, player);
+            preparedStatement.setString(1, course);
             preparedStatement.setInt(2, index-1);
             ResultSet resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) {
-                outList.add(new FakePlayer())
+                return resultSet.getLong("time");
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+
+        return null;
     }
 
+    /**
+     * Retrieves the player with the overall nth best time
+     * @param course the course to get data for
+     * @param index The nth time you want
+     * @return the player
+     */
+    public String getPlayerOverall(String course, int index) {
+        String sql = "SELECT * FROM playerTimes WHERE course = ? ORDER BY time ASC LIMIT 1 OFFSET ?;";
+
+        try {
+            PreparedStatement preparedStatement = CONNECTION.prepareStatement(sql);
+            preparedStatement.setString(1, course);
+            preparedStatement.setInt(2, index-1);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            UUID uuid = (UUID.fromString(resultSet.getString("player"));
+            while (resultSet.next()) {
+                return MojangUtils.fromUuid(String.valueOf(uuid)).getAsString();
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return null;
+    }
     /**
      * Removes all but the top ten times per player for all players
      */
@@ -94,15 +128,16 @@ public class SQLiteHandler {
         // Thanks, ChatGPT <3
         String sql = """
                 DELETE FROM playerTimes
-                WHERE (player, time) NOT IN (
-                    SELECT player, time
+                  WHERE (player, course, time) NOT IN (
+                    SELECT player, course, time
                     FROM (
-                        SELECT player, time,
-                               ROW_NUMBER() OVER (PARTITION BY player ORDER BY time ASC) AS row_num
-                        FROM playerTimes
-                    ) AS t
+                      SELECT player, course, time,
+                             ROW_NUMBER() OVER (PARTITION BY player, course ORDER BY time ASC) AS row_num
+                      FROM playerTimes
+                    ) AS subQuery
                     WHERE row_num <= 10
-                );
+                  );
+                  
                                 
                 """;
 
@@ -120,8 +155,9 @@ public class SQLiteHandler {
         String createTable = """
                 CREATE TABLE IF NOT EXISTS playerTimes (
                     player text NOT NULL,
-                    time bigint NOT NULL,
-                    course text NOT NULL
+                    course text NOT NULL,
+                    time bigint NOT NULL
+                    
                 );
                 """;
 
