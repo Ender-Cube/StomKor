@@ -14,13 +14,20 @@ repositories {
 }
 
 dependencies {
+    // Minestom
     implementation("com.github.Minestom.Minestom:Minestom:8ad2c7701f")
+
+    // Kyori stuff (Adventure)
     implementation("net.kyori:adventure-text-serializer-plain:4.13.1")
     implementation("net.kyori:adventure-text-minimessage:4.13.0")
     implementation("org.spongepowered:configurate-hocon:4.1.2")
 
+    // LiteCommands (command framework)
     implementation("dev.rollczi.litecommands:core:2.8.7")
     implementation("dev.rollczi.litecommands:minestom:2.8.7")
+
+    // SQLite
+    implementation("org.xerial:sqlite-jdbc:3.41.2.1")
 
 }
 

@@ -1,9 +1,7 @@
 package me.zax71.stomKor.commands;
 
-import dev.rollczi.litecommands.argument.Arg;
 import dev.rollczi.litecommands.command.execute.Execute;
 import dev.rollczi.litecommands.command.route.Route;
-import me.zax71.stomKor.ParkourMap;
 import net.minestom.server.command.CommandSender;
 import net.minestom.server.coordinate.Pos;
 import net.minestom.server.entity.Player;
@@ -31,9 +29,5 @@ public class HubCommand {
         } else {
             player.teleport(instanceSpawnPoint);
         }
-
-
-
-
     }
 }

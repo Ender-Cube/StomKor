@@ -4,9 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="4d97943a-8f2a-4d65-84f3-b8137f62bbc6" name="Changes" comment="Ignore .idea/">
-      <change beforePath="$PROJECT_DIR$/.github/workflows/build.yml" beforeDir="false" afterPath="$PROJECT_DIR$/.github/workflows/build.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle.kts" afterDir="false" />
+    <list default="true" id="4d97943a-8f2a-4d65-84f3-b8137f62bbc6" name="Changes" comment="Some SQL is added, but I forgot that other courses exist, time to start again!">
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/zax71/stomKor/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/zax71/stomKor/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/zax71/stomKor/utils/SQLiteHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/zax71/stomKor/utils/SQLiteHandler.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -18,6 +18,16 @@
       <ProjectState />
     </projectState>
   </component>
+  <component name="ExternalProjectsManager">
+    <system id="GRADLE">
+      <state>
+        <task path="$PROJECT_DIR$">
+          <activation />
+        </task>
+        <projects_view />
+      </state>
+    </system>
+  </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
@@ -26,6 +36,11 @@
     </option>
   </component>
   <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="main" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
     <option name="SIGN_OFF_COMMIT" value="true" />
   </component>
@@ -40,10 +55,11 @@
   </component>
   <component name="PropertiesComponent">{
   &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
     &quot;git-widget-placeholder&quot;: &quot;main&quot;,
     &quot;last_opened_file_path&quot;: &quot;/home/zax/Documents/coding/Java/Minestom/lightHub&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.keymap&quot;
+    &quot;settings.editor.selected.configurable&quot;: &quot;editor.preferences.fonts.default&quot;
   }
 }</component>
   <component name="RunManager" selected="Gradle.Build">
@@ -171,7 +187,21 @@
       <option name="project" value="LOCAL" />
       <updated>1682358463148</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="Try more caching">
+      <created>1682358735470</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1682358735470</updated>
+    </task>
+    <task id="LOCAL-00012" summary="Some SQL is added, but I forgot that other courses exist, time to start again!">
+      <created>1682593151219</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1682593151219</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -186,6 +216,12 @@
     <MESSAGE value="Fix checkpoint skipping, teleport to checkpoint on death and bump version to 1.1.0" />
     <MESSAGE value="Update GitHub Actions to upload artifact" />
     <MESSAGE value="Try to fix upload artifact path" />
-    <option name="LAST_COMMIT_MESSAGE" value="Try to fix upload artifact path" />
+    <MESSAGE value="Try more caching" />
+    <MESSAGE value="Some SQL is added, but I forgot that other courses exist, time to start again!" />
+    <option name="LAST_COMMIT_MESSAGE" value="Some SQL is added, but I forgot that other courses exist, time to start again!" />
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
   </component>
 </project>
