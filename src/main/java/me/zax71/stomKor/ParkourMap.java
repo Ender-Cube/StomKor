@@ -32,17 +32,15 @@ public record ParkourMap(InstanceContainer instance, String name, String difficu
     public void teleportSpawn(@NotNull Player player) {
         if (player.getInstance() != instance){
             player.setInstance(instance, spawnPoint);
-
-            // Reset/init checkpoints.  No need to reset them when you are in the world already
-            Tag<Integer> checkpoint = Tag.Integer("checkpoint");
-            player.setTag(checkpoint, -1);
         } else {
             player.teleport(spawnPoint);
         }
 
-
+        // Reset checkpoints and timer
+        Tag<Integer> checkpoint = Tag.Integer("checkpoint");
         Tag<Boolean> startedTimer = Tag.Boolean("startedTimer");
         player.setTag(startedTimer, false);
+        player.setTag(checkpoint, -1);
 
     }
 

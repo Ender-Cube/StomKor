@@ -1,5 +1,6 @@
 package me.zax71.stomKor.listeners;
 
+import io.leangen.geantyref.TypeToken;
 import me.zax71.stomKor.ParkourMap;
 import net.kyori.adventure.sound.Sound;
 import net.minestom.server.coordinate.Pos;
@@ -14,6 +15,7 @@ import org.spongepowered.configurate.serialize.SerializationException;
 import java.text.DecimalFormat;
 import java.util.Date;
 import java.util.Objects;
+import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
 import static me.zax71.stomKor.Main.*;
@@ -32,6 +34,7 @@ public class PlayerMove implements EventListener<PlayerMoveEvent> {
     public @NotNull net.minestom.server.event.EventListener.Result run(@NotNull PlayerMoveEvent event) {
         Player player = event.getPlayer();
 
+        // If in hub
         if (player.getInstance() == HUB) {
             try {
                 if (player.getPosition().y() < CONFIG.node("hub", "death-y").get(Integer.class)) {
@@ -63,6 +66,20 @@ public class PlayerMove implements EventListener<PlayerMoveEvent> {
 
         // See if player is below the death barrier and if so, teleport them to spawn or current checkpoint
         if (player.getPosition().y() < currentMap.deathY()) {
+
+            String[] deathMessages;
+            try {
+                deathMessages = CONFIG.node("messages", "deathMessages").get(new TypeToken<String[]>() {});
+            } catch (SerializationException e) {
+                throw new RuntimeException(e);
+            }
+            Random rand = new Random();
+
+            if (deathMessages != null) {
+                int messageInt = rand.nextInt(deathMessages.length);
+                player.sendMessage(deathMessages[messageInt]);
+            }
+
             if (player.getTag(checkpoint) == -1) {
                 player.teleport(currentMap.spawnPoint());
             } else {
