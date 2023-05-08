@@ -5,13 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="4d97943a-8f2a-4d65-84f3-b8137f62bbc6" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/me/zax71/stomKor/commands/ModeCommand.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/me/zax71/stomKor/commands/arguments/ModeArgument.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/me/zax71/stomKor/enums/Modes.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/dockerfile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/zax71/stomKor/ParkourMap.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/zax71/stomKor/ParkourMap.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/zax71/stomKor/listeners/PlayerMove.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/zax71/stomKor/listeners/PlayerMove.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/zax71/stomKor/commands/ModeCommand.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/zax71/stomKor/commands/arguments/ModeArgument.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/zax71/stomKor/enums/Modes.java" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -221,7 +218,21 @@
       <option name="project" value="LOCAL" />
       <updated>1682868176231</updated>
     </task>
-    <option name="localTasksCounter" value="15" />
+    <task id="LOCAL-00015" summary="Added death messages and fixed respawning bug">
+      <created>1683568533773</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1683568533773</updated>
+    </task>
+    <task id="LOCAL-00016" summary="Fix build">
+      <created>1683569153096</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1683569153096</updated>
+    </task>
+    <option name="localTasksCounter" value="17" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -240,7 +251,9 @@
     <MESSAGE value="Some SQL is added, but I forgot that other courses exist, time to start again!" />
     <MESSAGE value="Add /leaderboard command, fix SQL bugs and add a text centering method" />
     <MESSAGE value="Broadcast player join in yellow" />
-    <option name="LAST_COMMIT_MESSAGE" value="Broadcast player join in yellow" />
+    <MESSAGE value="Added death messages and fixed respawning bug" />
+    <MESSAGE value="Fix build" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fix build" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
