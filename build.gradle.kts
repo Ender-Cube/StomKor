@@ -15,7 +15,7 @@ repositories {
 
 dependencies {
     // Minestom
-    implementation("com.github.Minestom.Minestom:Minestom:79ce9570ea")
+    implementation("com.github.Minestom.Minestom:Minestom:85febebd09")
 
     // Kyori stuff (Adventure)
     implementation("net.kyori:adventure-text-serializer-plain:4.13.1")
