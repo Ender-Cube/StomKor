@@ -4,6 +4,7 @@ import dev.rollczi.litecommands.command.execute.Execute;
 import dev.rollczi.litecommands.command.route.Route;
 import net.minestom.server.command.CommandSender;
 import net.minestom.server.coordinate.Pos;
+import net.minestom.server.entity.GameMode;
 import net.minestom.server.entity.Player;
 import net.minestom.server.tag.Tag;
 
@@ -27,6 +28,7 @@ public class HubCommand {
 
         player.sendMessage("Teleporting to hub");
         player.setTag(spectating, false);
+        player.setGameMode(GameMode.ADVENTURE);
 
         if (player.getInstance() != HUB){
             player.setInstance(HUB, instanceSpawnPoint);

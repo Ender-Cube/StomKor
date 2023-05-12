@@ -31,8 +31,8 @@ public class SpectateCommand {
         }
 
 
-        player.sendMessage("Spectating " + spectatingPlayer + " in " + playersMap.name());
-        spectatingPlayer.sendMessage(player.getName() + " is spectating you");
+        player.sendMessage("Spectating " + spectatingPlayer.getUsername() + " in " + playersMap.name());
+        spectatingPlayer.sendMessage(player.getUsername() + " is spectating you");
 
         player.setTag(spectating, true);
         player.setGameMode(GameMode.SPECTATOR);

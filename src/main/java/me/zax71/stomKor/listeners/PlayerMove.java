@@ -73,6 +73,7 @@ public class PlayerMove implements EventListener<PlayerMoveEvent> {
         // See if player is below the death barrier and if so, teleport them to spawn or current checkpoint
         if (player.getPosition().y() < currentMap.deathY()) {
 
+            // Get a random death message from config
             String[] deathMessages;
             try {
                 deathMessages = CONFIG.node("messages", "deathMessages").get(new TypeToken<String[]>() {});
@@ -81,6 +82,7 @@ public class PlayerMove implements EventListener<PlayerMoveEvent> {
             }
             Random rand = new Random();
 
+            // Send the message
             if (deathMessages != null) {
                 int messageInt = rand.nextInt(deathMessages.length);
                 player.sendMessage(deathMessages[messageInt]);
