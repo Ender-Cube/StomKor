@@ -30,7 +30,7 @@ public class PlayerLogin implements EventListener<PlayerLoginEvent> {
         player.setGameMode(GameMode.ADVENTURE);
 
         // Tell players, and the log, that someone joined
-        Component playerJoinMessage = player.getName().append(Component.text(" joined the server")).color(NamedTextColor.YELLOW)
+        Component playerJoinMessage = player.getName().append(Component.text(" joined the server")).color(NamedTextColor.YELLOW);
         Audiences.players().sendMessage(playerJoinMessage);
         logger.info(ANSIComponentSerializer.ansi().serialize(playerJoinMessage));
 
