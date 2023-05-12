@@ -32,7 +32,7 @@ public class ConfigUtils {
     public static String getOrSetDefault(ConfigurationNode node, String value) {
         if (node.getString() == null) {
             node.raw(value);
-            System.out.println("Setting config");
+            logger.info("Setting config");
             return value;
         }
 
@@ -59,7 +59,7 @@ public class ConfigUtils {
             return new Pos(pointList[0], pointList[1], pointList[2], pointList[3], pointList[4]);
         }
 
-        System.out.println("Position value in config's length is out of bounds");
+        logger.warn("Position value in config's length is out of bounds");
         return null;
     }
     @Nullable
@@ -76,7 +76,7 @@ public class ConfigUtils {
 
         // Create config directories
         if (!Files.exists(getPath("config/worlds/maps"))) {
-            System.out.println("Creating configuration files");
+            logger.info("Creating configuration files");
 
             try {
                 Files.createDirectories(getPath("config/worlds/"));

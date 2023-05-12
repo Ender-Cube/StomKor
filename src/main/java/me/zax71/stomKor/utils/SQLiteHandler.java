@@ -10,6 +10,7 @@ import java.util.Objects;
 import java.util.UUID;
 
 import static me.zax71.stomKor.Main.getPath;
+import static me.zax71.stomKor.Main.logger;
 
 public class SQLiteHandler {
 
@@ -186,7 +187,7 @@ public class SQLiteHandler {
             }
 
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            logger.error(e.getMessage());
         }
 
     }

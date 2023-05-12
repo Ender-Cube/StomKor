@@ -39,8 +39,10 @@ public record ParkourMap(InstanceContainer instance, String name, String difficu
         // Reset checkpoints and timer
         Tag<Integer> checkpoint = Tag.Integer("checkpoint");
         Tag<Boolean> startedTimer = Tag.Boolean("startedTimer");
+        Tag<Boolean> spectating = Tag.Boolean("spectating");
         player.setTag(startedTimer, false);
         player.setTag(checkpoint, -1);
+        player.setTag(spectating, false);
 
     }
 

@@ -33,6 +33,12 @@ public class PlayerMove implements EventListener<PlayerMoveEvent> {
     @Override
     public @NotNull net.minestom.server.event.EventListener.Result run(@NotNull PlayerMoveEvent event) {
         Player player = event.getPlayer();
+        Tag<Boolean> spectating = Tag.Boolean("spectating");
+
+        // No checks should take place if spectating
+        if (player.getTag(spectating)) {
+            return SUCCESS;
+        }
 
         // If in hub
         if (player.getInstance() == HUB) {

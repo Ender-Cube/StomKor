@@ -4,18 +4,22 @@ import dev.rollczi.litecommands.LiteCommands;
 import dev.rollczi.litecommands.minestom.LiteMinestomFactory;
 import me.zax71.stomKor.blocks.Sign;
 import me.zax71.stomKor.blocks.Skull;
-import me.zax71.stomKor.commands.HubCommand;
-import me.zax71.stomKor.commands.LeaderboardCommand;
-import me.zax71.stomKor.commands.MapCommand;
-import me.zax71.stomKor.commands.ReloadCommand;
+import me.zax71.stomKor.commands.*;
 import me.zax71.stomKor.commands.arguments.ParkourMapArgument;
+import me.zax71.stomKor.commands.arguments.PlayerArgument;
 import me.zax71.stomKor.listeners.PlayerBlockBreak;
 import me.zax71.stomKor.listeners.PlayerLogin;
 import me.zax71.stomKor.listeners.PlayerMove;
 import me.zax71.stomKor.utils.FullbrightDimension;
 import me.zax71.stomKor.utils.SQLiteHandler;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
+import net.kyori.adventure.text.logger.slf4j.ComponentLogger;
+import net.kyori.adventure.text.serializer.ansi.ANSIComponentSerializer;
+import net.kyori.ansi.ANSIComponentRenderer;
 import net.minestom.server.MinecraftServer;
 import net.minestom.server.command.CommandSender;
+import net.minestom.server.entity.Player;
 import net.minestom.server.event.Event;
 import net.minestom.server.event.EventFilter;
 import net.minestom.server.event.EventNode;
@@ -23,6 +27,8 @@ import net.minestom.server.event.GlobalEventHandler;
 import net.minestom.server.extras.MojangAuth;
 import net.minestom.server.instance.*;
 import net.minestom.server.utils.NamespaceID;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.spongepowered.configurate.CommentedConfigurationNode;
 import org.spongepowered.configurate.ConfigurationNode;
 import org.spongepowered.configurate.hocon.HoconConfigurationLoader;
@@ -45,6 +51,7 @@ public class Main {
     public static HoconConfigurationLoader LOADER;
     public static List<ParkourMap> parkourMaps = new ArrayList<>();
     public static SQLiteHandler SQLite;
+    public static final Logger logger = LoggerFactory.getLogger(Main.class);
 
     private static LiteCommands<CommandSender> liteCommands;
 
@@ -67,8 +74,6 @@ public class Main {
         // Register block handlers
         MinecraftServer.getBlockManager().registerHandler(NamespaceID.from("minecraft:sign"), Sign::new);
         MinecraftServer.getBlockManager().registerHandler(NamespaceID.from("minecraft:skull"), Skull::new);
-
-        // Register commands
 
         // Offline mode bad
         MojangAuth.init();
@@ -96,14 +101,16 @@ public class Main {
                 .commandInstance(new ReloadCommand())
                 .commandInstance(new HubCommand())
                 .commandInstance(new LeaderboardCommand())
+                .commandInstance(new SpectateCommand())
                 .argument(ParkourMap.class, new ParkourMapArgument(MinecraftServer.getServer()))
+                .argument(Player.class, new PlayerArgument(MinecraftServer.getServer()))
                 .register();
     }
 
     private static void initWorlds() {
         // Fail and stop server if hub doesn't exist
         if (!Files.exists(getPath("config/worlds/hub"))) {
-            System.out.println("ERROR: Missing HUB world, please place an Anvil world in ./config/worlds/hub and restart the server");
+            logger.error("Missing HUB world, please place an Anvil world in ./config/worlds/hub and restart the server");
             MinecraftServer.stopCleanly();
             return;
         }
@@ -121,7 +128,7 @@ public class Main {
                 String name = worldFile.getName();
                 ConfigurationNode configNode = CONFIG.node("maps", name);
 
-                System.out.println("loading map " + name);
+                logger.info("loading map " + name);
                 try {
                     parkourMaps.add(new ParkourMap(
                             MinecraftServer.getInstanceManager().createInstanceContainer(

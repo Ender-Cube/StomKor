@@ -11,15 +11,20 @@ repositories {
     mavenCentral()
     maven("https://jitpack.io")
     maven("https://repo.panda-lang.org/releases")
+    maven(url = "https://s01.oss.sonatype.org/content/repositories/snapshots/") {
+        name = "sonatype-oss-snapshots"
+    }
 }
 
 dependencies {
     // Minestom
-    implementation("com.github.Minestom.Minestom:Minestom:85febebd09")
+    // implementation("com.github.Minestom.Minestom:Minestom:85febebd09") // Official
+    implementation("dev.hollowcube:minestom-ce:d411c271cf") // Minestom-CE, more updated
 
     // Kyori stuff (Adventure)
     implementation("net.kyori:adventure-text-serializer-plain:4.13.1")
     implementation("net.kyori:adventure-text-minimessage:4.13.1")
+    implementation("net.kyori:adventure-text-serializer-ansi:4.14.0-SNAPSHOT")
 
     // Configuration API
     implementation("org.spongepowered:configurate-hocon:4.1.2")
@@ -30,6 +35,9 @@ dependencies {
 
     // SQLite
     implementation("org.xerial:sqlite-jdbc:3.41.2.1")
+
+    // Logger
+    implementation("ch.qos.logback:logback-classic:1.3.3")
 
 }
 
