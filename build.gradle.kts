@@ -5,7 +5,7 @@ plugins {
 }
 
 group = "me.zax71"
-version = "1.1.0"
+version = "1.2.0"
 
 repositories {
     mavenCentral()
@@ -19,7 +19,7 @@ repositories {
 dependencies {
     // Minestom
     // implementation("com.github.Minestom.Minestom:Minestom:85febebd09") // Official
-    implementation("dev.hollowcube:minestom-ce:d411c271cf") // Minestom-CE, more updated
+    implementation("dev.hollowcube:minestom-ce:7f3144337d") // Minestom-CE, more updated
 
     // Kyori stuff (Adventure)
     implementation("net.kyori:adventure-text-serializer-plain:4.13.1")
