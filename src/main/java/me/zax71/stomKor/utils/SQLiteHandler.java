@@ -52,6 +52,7 @@ public class SQLiteHandler {
      * @param index time to get, 1 for best
      * @return the nth best time of that player
      */
+    @Nullable
     public Long getTimePlayer(Player player, String course, int index) {
         String sql = "SELECT * FROM playerTimes WHERE player = ? AND course = ? ORDER BY time ASC LIMIT 1 OFFSET ?;";
 
@@ -72,11 +73,38 @@ public class SQLiteHandler {
     }
 
     /**
-     * Retrieves the overall nth best time
+     * Gets the specified players best times ordered by an index
+     * @param UUID player's UUID to retrieve data from
+     * @param index time to get, 1 for best
+     * @return the nth best time of that player
+     */
+    @Nullable
+    public Long getTimeUUID(String UUID, String course, int index) {
+        String sql = "SELECT * FROM playerTimes WHERE player = ? AND course = ? ORDER BY time ASC LIMIT 1 OFFSET ?;";
+
+        try {
+            PreparedStatement preparedStatement = CONNECTION.prepareStatement(sql);
+            preparedStatement.setString(1, UUID);
+            preparedStatement.setString(2, course);
+            preparedStatement.setInt(3, index-1);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                return resultSet.getLong("time");
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return null;
+    }
+
+    /**
+     * Retrieves the overall nth best time for a course
      * @param course The course to get data for
      * @param index The nth time you want
      * @return The time
      */
+    @Nullable
     public Long getTimeOverall(String course, int index) {
         String sql = "SELECT * FROM playerTimes WHERE course = ? ORDER BY time ASC LIMIT 1 OFFSET ?;";
 

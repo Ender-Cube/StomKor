@@ -39,6 +39,9 @@ dependencies {
     // Logger
     implementation("ch.qos.logback:logback-classic:1.3.3")
 
+    // Web server (for API)
+    implementation("io.javalin:javalin:5.5.0")
+
 }
 
 java {

@@ -43,6 +43,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import static me.zax71.stomKor.API.initAPI;
 import static me.zax71.stomKor.utils.ConfigUtils.*;
 
 public class Main {
@@ -92,6 +93,7 @@ public class Main {
 
         initWorlds();
         initCommands();
+        initAPI();
         SQLite = new SQLiteHandler("database.db");
 
     }
