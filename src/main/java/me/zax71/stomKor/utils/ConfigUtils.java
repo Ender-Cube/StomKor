@@ -33,6 +33,7 @@ public class ConfigUtils {
         if (node.getString() == null) {
             node.raw(value);
             logger.info("Setting config");
+            saveConfig();
             return value;
         }
 

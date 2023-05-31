@@ -25,6 +25,7 @@ import net.minestom.server.event.EventFilter;
 import net.minestom.server.event.EventNode;
 import net.minestom.server.event.GlobalEventHandler;
 import net.minestom.server.extras.MojangAuth;
+import net.minestom.server.extras.velocity.VelocityProxy;
 import net.minestom.server.instance.*;
 import net.minestom.server.utils.NamespaceID;
 import org.slf4j.Logger;
@@ -75,11 +76,19 @@ public class Main {
         MinecraftServer.getBlockManager().registerHandler(NamespaceID.from("minecraft:sign"), Sign::new);
         MinecraftServer.getBlockManager().registerHandler(NamespaceID.from("minecraft:skull"), Skull::new);
 
-        // Offline mode bad
-        MojangAuth.init();
+        switch (getOrSetDefault(CONFIG.node("connection", "mode"), "online")) {
+            case "online" -> MojangAuth.init();
+            case "velocity" -> {
+                String velocitySecret = getOrSetDefault(CONFIG.node("connection", "velocitySecret"), "");
+                if (!Objects.equals(velocitySecret, "")) {
+                    VelocityProxy.enable(velocitySecret);
+                }
+            }
+        }
 
         // Start the server on port 25565
-        minecraftServer.start("0.0.0.0", 25565);
+        minecraftServer.start("0.0.0.0", Integer.parseInt(getOrSetDefault(CONFIG.node("connection", "port"), "25565")));
+        logger.info("Starting server on port " + Integer.parseInt(getOrSetDefault(CONFIG.node("connection", "port"), "25565")) + " with " + getOrSetDefault(CONFIG.node("connection", "mode"), "online") + " encryption");
 
         initWorlds();
         initCommands();

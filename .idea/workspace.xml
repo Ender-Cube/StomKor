@@ -6,6 +6,9 @@
   <component name="ChangeListManager">
     <list default="true" id="4d97943a-8f2a-4d65-84f3-b8137f62bbc6" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/zax71/stomKor/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/zax71/stomKor/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/zax71/stomKor/commands/arguments/PlayerArgument.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/zax71/stomKor/commands/arguments/PlayerArgument.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/zax71/stomKor/utils/ConfigUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/zax71/stomKor/utils/ConfigUtils.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -62,6 +65,11 @@
     &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;
   }
 }</component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/main/resources" />
+    </key>
+  </component>
   <component name="RunManager" selected="Gradle.Build">
     <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="me.zax71.stomKor.Main" />
@@ -257,7 +265,14 @@
       <option name="project" value="LOCAL" />
       <updated>1683911164562</updated>
     </task>
-    <option name="localTasksCounter" value="21" />
+    <task id="LOCAL-00021" summary="Update to 1.19.4 and bump version (I'm sure it must be time by now)">
+      <created>1684773029555</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1684773029555</updated>
+    </task>
+    <option name="localTasksCounter" value="22" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -282,7 +297,8 @@
     <MESSAGE value="Switch to logback, switch to Minestom-ce (and thus update to 1.19.3)" />
     <MESSAGE value="Fix build, oops!" />
     <MESSAGE value="Added /spectate command" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added /spectate command" />
+    <MESSAGE value="Update to 1.19.4 and bump version (I'm sure it must be time by now)" />
+    <option name="LAST_COMMIT_MESSAGE" value="Update to 1.19.4 and bump version (I'm sure it must be time by now)" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
