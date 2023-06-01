@@ -10,6 +10,7 @@ import me.zax71.stomKor.commands.arguments.PlayerArgument;
 import me.zax71.stomKor.listeners.PlayerBlockBreak;
 import me.zax71.stomKor.listeners.PlayerLogin;
 import me.zax71.stomKor.listeners.PlayerMove;
+import me.zax71.stomKor.listeners.PlayerPluginMessage;
 import me.zax71.stomKor.utils.FullbrightDimension;
 import me.zax71.stomKor.utils.SQLiteHandler;
 import net.kyori.adventure.text.Component;
@@ -70,6 +71,7 @@ public class Main {
         entityNode
                 .addListener(new PlayerLogin())
                 .addListener(new PlayerBlockBreak())
+                .addListener(new PlayerPluginMessage())
                 .addListener(new PlayerMove());
         globalEventHandler.addChild(entityNode);
 

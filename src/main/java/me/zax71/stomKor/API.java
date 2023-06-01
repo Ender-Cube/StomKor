@@ -1,5 +1,6 @@
 package me.zax71.stomKor;
 
+import com.google.gson.Gson;
 import io.javalin.Javalin;
 import io.javalin.http.util.RateLimiter;
 
@@ -19,6 +20,8 @@ public class API {
     public static void initAPI() {
 
         var rateLimiter = new RateLimiter(TimeUnit.MINUTES);
+
+        Gson gson = new Gson();
 
         // Get a list of parkour maps for checking later
         List<String> mapNames = new ArrayList<>();
@@ -43,7 +46,16 @@ public class API {
                     
                     See a leaderboard for a specific player and map
                     /api/v1/playerLeaderboard/<map>/<UUID>/<count>
+                    
+                    See a list of all maps
+                    /api/v1/maps
                     """);
+        });
+
+        // See a list of all maps
+        app.get("/api/v1/maps", ctx -> {
+            rateLimiter.incrementCounter(ctx, Integer.parseInt(getOrSetDefault(CONFIG.node("API", "rateLimit"), "50")));
+            ctx.result(gson.toJson(mapNames));
         });
 
         // Get a leaderboard for a specific map
