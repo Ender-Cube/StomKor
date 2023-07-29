@@ -1,5 +1,8 @@
 package me.zax71.stomKor.listeners;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import me.zax71.stomKor.ParkourMap;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.serializer.ansi.ANSIComponentSerializer;
@@ -10,10 +13,12 @@ import net.minestom.server.event.EventListener;
 import net.minestom.server.event.player.PlayerLoginEvent;
 import net.minestom.server.tag.Tag;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.HashMap;
 import java.util.Objects;
 
-import static me.zax71.stomKor.Main.*;
-import static me.zax71.stomKor.utils.ConfigUtils.getPosFromConfig;
+import static me.zax71.stomKor.Main.logger;
+import static me.zax71.stomKor.Main.parkourMaps;
 
 
 public class PlayerLogin implements EventListener<PlayerLoginEvent> {
@@ -25,8 +30,28 @@ public class PlayerLogin implements EventListener<PlayerLoginEvent> {
     @Override
     public @NotNull Result run(@NotNull PlayerLoginEvent event) {
         Player player = event.getPlayer();
-        event.setSpawningInstance(HUB);
-        player.setRespawnPoint(Objects.requireNonNull(getPosFromConfig(CONFIG.node("hub", "spawnPoint"))));
+
+        Tag<String> playerRedisMessageMapTag = Tag.String("playerRedisMessageMap");
+
+        // Deserialize the data from AsyncPlayerPreLoginEvent
+        HashMap<String, String> playerRedisMessageMap = new Gson().fromJson(player.getTag(playerRedisMessageMapTag), new TypeToken<HashMap<String, String>>() {
+        }.getType());
+
+        logger.info(player.getUsername() + " is going to be sent to " + playerRedisMessageMap.get("map"));
+
+
+        ParkourMap map = parkourMaps
+                .stream()
+                .filter((currentMap) -> currentMap.name().equals(playerRedisMessageMap.get("map")))
+                .findFirst()
+                .orElse(null);
+
+        // Get the instance in the parkourMaps list from the string of the map name
+        event.setSpawningInstance(Objects.requireNonNull(map).instance());
+
+
+        player.setRespawnPoint(map.spawnPoint());
+        map.startParkourSession(player);
         player.setGameMode(GameMode.ADVENTURE);
 
         // Tell players, and the log, that someone joined
@@ -35,8 +60,10 @@ public class PlayerLogin implements EventListener<PlayerLoginEvent> {
         logger.info(ANSIComponentSerializer.ansi().serialize(playerJoinMessage));
 
         // Initialise the spectating tag
-        Tag<Boolean> spectating = Tag.Boolean("spectating");
-        player.setTag(spectating, false);
+        player.setTag(Tag.Boolean("spectating"), false);
+
+        // Initialise finishedMap tag
+        player.setTag(Tag.Boolean("finishedMap"), false);
         return Result.SUCCESS;
     }
 }

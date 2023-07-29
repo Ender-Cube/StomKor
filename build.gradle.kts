@@ -5,7 +5,7 @@ plugins {
 }
 
 group = "me.zax71"
-version = "1.3.0"
+version = "1.4.0"
 
 repositories {
     mavenCentral()
@@ -42,6 +42,11 @@ dependencies {
     // Web server (for API)
     implementation("io.javalin:javalin:5.5.0")
 
+    // Redis (Jedis)
+    implementation("redis.clients:jedis:4.3.0")
+
+    // Guava (for sending plugin messages) https://github.com/google/guava
+    implementation("com.google.guava:guava:32.1.1-jre")
 }
 
 java {

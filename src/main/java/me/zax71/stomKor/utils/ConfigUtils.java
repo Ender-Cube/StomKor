@@ -1,9 +1,11 @@
 package me.zax71.stomKor.utils;
 
 import io.leangen.geantyref.TypeToken;
+import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.minestom.server.MinecraftServer;
-import net.minestom.server.coordinate.Point;
 import net.minestom.server.coordinate.Pos;
+import net.minestom.server.item.ItemStack;
+import net.minestom.server.item.Material;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.configurate.ConfigurateException;
 import org.spongepowered.configurate.ConfigurationNode;
@@ -13,9 +15,7 @@ import org.spongepowered.configurate.serialize.SerializationException;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Objects;
 
 import static me.zax71.stomKor.Main.*;
 
@@ -39,11 +39,39 @@ public class ConfigUtils {
 
         return node.getString();
     }
+
+    @Nullable
+    public static ItemStack getItemStackFromConfig(ConfigurationNode configNode) {
+        String materialString = configNode.node("material").getString();
+        String name = configNode.node("name").getString();
+
+        if (materialString == null) {
+            materialString = "minecraft:barrier";
+            logger.warn("Please set a material for the map above");
+        }
+        if (name == null) {
+            name = "Please set a name in config for this";
+            logger.warn("Please set a name for the map above");
+        }
+
+        Material material = Material.fromNamespaceId(materialString);
+
+        if (material == null) {
+            logger.warn("The material, " + materialString + " in config of the map above is invalid");
+            return null;
+        }
+
+        return ItemStack.of(material)
+                .withDisplayName(MiniMessage.miniMessage().deserialize(name));
+    }
+
+
     @Nullable
     public static Pos getPosFromConfig(ConfigurationNode configNode) {
         Float[] pointList;
         try {
-            pointList = configNode.get(new TypeToken<Float[]>() {});
+            pointList = configNode.get(new TypeToken<Float[]>() {
+            });
         } catch (SerializationException e) {
             throw new RuntimeException(e);
         }
@@ -63,6 +91,7 @@ public class ConfigUtils {
         logger.warn("Position value in config's length is out of bounds");
         return null;
     }
+
     @Nullable
     public static Pos[] getPosListFromConfig(ConfigurationNode configNode) {
         List<Pos> outArrayList = new ArrayList<>();
@@ -73,6 +102,7 @@ public class ConfigUtils {
         }
         return outArrayList.toArray(new Pos[0]);
     }
+
     public static void initConfig() {
 
         // Create config directories
