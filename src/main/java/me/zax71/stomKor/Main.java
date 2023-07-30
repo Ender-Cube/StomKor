@@ -22,6 +22,7 @@ import net.minestom.server.extras.MojangAuth;
 import net.minestom.server.extras.velocity.VelocityProxy;
 import net.minestom.server.instance.AnvilLoader;
 import net.minestom.server.instance.InstanceContainer;
+import net.minestom.server.network.packet.server.play.TeamsPacket;
 import net.minestom.server.utils.NamespaceID;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -48,7 +49,6 @@ public class Main {
     public static List<Map<String, String>> playerMapQueue = new ArrayList<>();
     public static SQLiteHandler SQLite;
     public static final Logger logger = LoggerFactory.getLogger(Main.class);
-
 
     public static void main(String[] args) {
         initConfig();
@@ -84,6 +84,12 @@ public class Main {
         // Start the server on port 25565
         minecraftServer.start("0.0.0.0", Integer.parseInt(getOrSetDefault(CONFIG.node("connection", "port"), "25565")));
         logger.info("Starting server on port " + Integer.parseInt(getOrSetDefault(CONFIG.node("connection", "port"), "25565")) + " with " + getOrSetDefault(CONFIG.node("connection", "mode"), "online") + " encryption");
+
+        MinecraftServer.getTeamManager().createBuilder("noCollision")
+                .collisionRule(TeamsPacket.CollisionRule.NEVER)
+                .seeInvisiblePlayers()
+                .updateTeamPacket()
+                .build();
 
 
         initWorlds();

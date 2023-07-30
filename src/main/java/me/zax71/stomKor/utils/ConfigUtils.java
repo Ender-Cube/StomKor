@@ -64,8 +64,7 @@ public class ConfigUtils {
         return ItemStack.of(material)
                 .withDisplayName(MiniMessage.miniMessage().deserialize(name));
     }
-
-
+    
     @Nullable
     public static Pos getPosFromConfig(ConfigurationNode configNode) {
         Float[] pointList;

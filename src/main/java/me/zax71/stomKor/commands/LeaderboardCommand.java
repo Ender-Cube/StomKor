@@ -18,15 +18,12 @@ import static me.zax71.stomKor.utils.ComponentUtils.toHumanReadableTime;
 public class LeaderboardCommand {
     @Execute
     void execute(CommandSender sender, @Arg ParkourMap map) {
-
         if (map != null) {
             sender.sendMessage(createLeaderboard(map));
         }
     }
 
-
     private static TextComponent createLeaderboard(ParkourMap map) {
-
         Component placementComponent = Component.text()
                 .append(leaderboardEntry("#FFD700", map, 1))
                 .append(leaderboardEntry("#808080", map, 2))
@@ -34,8 +31,8 @@ public class LeaderboardCommand {
                 .append(Component.newline())
                 .build();
 
-        for (int i=0; i<10-3; i++) {
-            placementComponent = placementComponent.append(leaderboardEntry("#AAAAAA", map, i+4));
+        for (int i = 0; i < 10 - 3; i++) {
+            placementComponent = placementComponent.append(leaderboardEntry("#AAAAAA", map, i + 4));
         }
 
         return Component.text()

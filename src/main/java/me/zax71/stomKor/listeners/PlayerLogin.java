@@ -6,11 +6,14 @@ import me.zax71.stomKor.ParkourMap;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.serializer.ansi.ANSIComponentSerializer;
+import net.minestom.server.MinecraftServer;
 import net.minestom.server.adventure.audience.Audiences;
 import net.minestom.server.entity.GameMode;
 import net.minestom.server.entity.Player;
 import net.minestom.server.event.EventListener;
 import net.minestom.server.event.player.PlayerLoginEvent;
+import net.minestom.server.item.ItemStack;
+import net.minestom.server.item.Material;
 import net.minestom.server.tag.Tag;
 import org.jetbrains.annotations.NotNull;
 
@@ -64,6 +67,10 @@ public class PlayerLogin implements EventListener<PlayerLoginEvent> {
 
         // Initialise finishedMap tag
         player.setTag(Tag.Boolean("finishedMap"), false);
+
+        // Set team
+        player.setTeam(MinecraftServer.getTeamManager().getTeam("noCollision"));
+        player.setInvisible(true);
         return Result.SUCCESS;
     }
 }
