@@ -7,9 +7,8 @@
     <list default="true" id="4d97943a-8f2a-4d65-84f3-b8137f62bbc6" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/me/zax71/stomKor/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/zax71/stomKor/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/zax71/stomKor/commands/LeaderboardCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/zax71/stomKor/commands/LeaderboardCommand.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/me/zax71/stomKor/listeners/PlayerLogin.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/zax71/stomKor/listeners/PlayerLogin.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/zax71/stomKor/utils/ConfigUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/zax71/stomKor/utils/ConfigUtils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/logback.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/logback.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -355,12 +354,30 @@
       <option name="project" value="LOCAL" />
       <updated>1690656992549</updated>
     </task>
-    <option name="localTasksCounter" value="27" />
+    <task id="LOCAL-00027" summary="Make players partially visible and non collidable">
+      <option name="closed" value="true" />
+      <created>1690729734089</created>
+      <option name="number" value="00027" />
+      <option name="presentableId" value="LOCAL-00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1690729734089</updated>
+    </task>
+    <option name="localTasksCounter" value="28" />
     <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
-    <MESSAGE value="Add MIT license" />
     <MESSAGE value="World loading is done" />
     <MESSAGE value="Added checkpoints and finishing logic. Minimum viable product reached :tada:" />
     <MESSAGE value="Add block handler for skulls and add a timer" />
@@ -385,7 +402,8 @@
     <MESSAGE value="Add Docker support" />
     <MESSAGE value="Make multi server ready" />
     <MESSAGE value="Make multi0-server ready and bump version" />
-    <option name="LAST_COMMIT_MESSAGE" value="Make multi0-server ready and bump version" />
+    <MESSAGE value="Make players partially visible and non collidable" />
+    <option name="LAST_COMMIT_MESSAGE" value="Make players partially visible and non collidable" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

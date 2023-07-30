@@ -85,6 +85,7 @@ public class Main {
         minecraftServer.start("0.0.0.0", Integer.parseInt(getOrSetDefault(CONFIG.node("connection", "port"), "25565")));
         logger.info("Starting server on port " + Integer.parseInt(getOrSetDefault(CONFIG.node("connection", "port"), "25565")) + " with " + getOrSetDefault(CONFIG.node("connection", "mode"), "online") + " encryption");
 
+        // Create the team to turn off collisions and make players partially visible
         MinecraftServer.getTeamManager().createBuilder("noCollision")
                 .collisionRule(TeamsPacket.CollisionRule.NEVER)
                 .seeInvisiblePlayers()
