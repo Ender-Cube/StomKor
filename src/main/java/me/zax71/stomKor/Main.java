@@ -12,6 +12,7 @@ import me.zax71.stomKor.commands.arguments.PlayerArgument;
 import me.zax71.stomKor.listeners.*;
 import me.zax71.stomKor.utils.FullbrightDimension;
 import me.zax71.stomKor.utils.SQLiteHandler;
+import net.hollowcube.polar.PolarLoader;
 import net.minestom.server.MinecraftServer;
 import net.minestom.server.entity.Player;
 import net.minestom.server.event.Event;
@@ -20,7 +21,6 @@ import net.minestom.server.event.EventNode;
 import net.minestom.server.event.GlobalEventHandler;
 import net.minestom.server.extras.MojangAuth;
 import net.minestom.server.extras.velocity.VelocityProxy;
-import net.minestom.server.instance.AnvilLoader;
 import net.minestom.server.instance.InstanceContainer;
 import net.minestom.server.network.packet.server.play.TeamsPacket;
 import net.minestom.server.utils.NamespaceID;
@@ -29,10 +29,10 @@ import org.slf4j.LoggerFactory;
 import org.spongepowered.configurate.CommentedConfigurationNode;
 import org.spongepowered.configurate.ConfigurationNode;
 import org.spongepowered.configurate.hocon.HoconConfigurationLoader;
-import org.spongepowered.configurate.serialize.SerializationException;
 import redis.clients.jedis.Jedis;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.URISyntaxException;
 import java.nio.file.Path;
 import java.util.*;
@@ -168,28 +168,30 @@ public class Main {
 
         // Load all the maps
         for (File worldFile : Objects.requireNonNull(getPath("config/worlds/maps").toFile().listFiles())) {
-            if (worldFile.isDirectory()) {
-                String name = worldFile.getName();
-                ConfigurationNode configNode = CONFIG.node("maps", name);
 
-                logger.info("loading map " + name);
-                try {
-                    parkourMaps.add(new ParkourMap(
-                            MinecraftServer.getInstanceManager().createInstanceContainer(
-                                    FullbrightDimension.INSTANCE,
-                                    new AnvilLoader(worldFile.getPath())
-                            ),
-                            name,
-                            configNode.node("difficulty").getString(),
-                            getPosListFromConfig(configNode.node("checkpoints")),
-                            getPosFromConfig(configNode.node("spawn")),
-                            getPosFromConfig(configNode.node("finish")),
-                            configNode.node("death-y").get(Short.class),
-                            getItemStackFromConfig(configNode.node("UIMaterial"))
-                    ));
-                } catch (SerializationException e) {
-                    throw new RuntimeException(e);
-                }
+            // Get the name of the map by removing .polar from the file name
+            String name = worldFile.getName();
+            name = name.substring(0, name.length() - 6);
+
+            ConfigurationNode configNode = CONFIG.node("maps", name);
+
+            logger.info("loading map " + name);
+            try {
+                parkourMaps.add(new ParkourMap(
+                        MinecraftServer.getInstanceManager().createInstanceContainer(
+                                FullbrightDimension.INSTANCE,
+                                new PolarLoader(Path.of(worldFile.getPath()))
+                        ),
+                        name,
+                        configNode.node("difficulty").getString(),
+                        getPosListFromConfig(configNode.node("checkpoints")),
+                        getPosFromConfig(configNode.node("spawn")),
+                        getPosFromConfig(configNode.node("finish")),
+                        configNode.node("death-y").get(Short.class),
+                        getItemStackFromConfig(configNode.node("UIMaterial"))
+                ));
+            } catch (IOException e) {
+                throw new RuntimeException(e);
             }
         }
     }

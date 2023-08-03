@@ -18,8 +18,10 @@ repositories {
 
 dependencies {
     // Minestom
-    // implementation("com.github.Minestom.Minestom:Minestom:85febebd09") // Official
-    implementation("dev.hollowcube:minestom-ce:7f3144337d") // Minestom-CE, more updated
+    implementation("dev.hollowcube:minestom-ce:9c6cb1796c")
+
+    // Polar
+    implementation("dev.hollowcube:polar:1.3.1")
 
     // Kyori stuff (Adventure)
     implementation("net.kyori:adventure-text-serializer-plain:4.13.1")
