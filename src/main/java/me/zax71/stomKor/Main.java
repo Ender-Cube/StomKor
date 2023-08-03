@@ -24,6 +24,7 @@ import net.minestom.server.extras.velocity.VelocityProxy;
 import net.minestom.server.instance.InstanceContainer;
 import net.minestom.server.network.packet.server.play.TeamsPacket;
 import net.minestom.server.utils.NamespaceID;
+import net.minestom.server.world.biomes.Biome;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.spongepowered.configurate.CommentedConfigurationNode;
@@ -160,6 +161,13 @@ public class Main {
     }
 
     private static void initWorlds() {
+        // Register minecraft:the_void
+        MinecraftServer.getBiomeManager().addBiome(Biome
+                .builder()
+                .name(NamespaceID.from("minecraft:the_void"))
+                .build()
+        );
+        
         // Create limbo Instance
         LIMBO = MinecraftServer.getInstanceManager().createInstanceContainer(
                 FullbrightDimension.INSTANCE

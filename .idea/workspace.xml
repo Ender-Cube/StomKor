@@ -4,11 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="4d97943a-8f2a-4d65-84f3-b8137f62bbc6" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle.kts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/zax71/stomKor/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/zax71/stomKor/Main.java" afterDir="false" />
-    </list>
+    <list default="true" id="4d97943a-8f2a-4d65-84f3-b8137f62bbc6" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -377,7 +373,23 @@
       <option name="project" value="LOCAL" />
       <updated>1690823152702</updated>
     </task>
-    <option name="localTasksCounter" value="30" />
+    <task id="LOCAL-00030" summary="Add Polar world support">
+      <option name="closed" value="true" />
+      <created>1691058244399</created>
+      <option name="number" value="00030" />
+      <option name="presentableId" value="LOCAL-00030" />
+      <option name="project" value="LOCAL" />
+      <updated>1691058244399</updated>
+    </task>
+    <task id="LOCAL-00031" summary="Bump version due to Polar worlds">
+      <option name="closed" value="true" />
+      <created>1691058306629</created>
+      <option name="number" value="00031" />
+      <option name="presentableId" value="LOCAL-00031" />
+      <option name="project" value="LOCAL" />
+      <updated>1691058306629</updated>
+    </task>
+    <option name="localTasksCounter" value="32" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -393,8 +405,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
-    <MESSAGE value="Add block handler for skulls and add a timer" />
-    <MESSAGE value="General bug fixes and timer accuracy improvements. I forget what I changed xD" />
     <MESSAGE value="Fix checkpoint skipping, teleport to checkpoint on death and bump version to 1.1.0" />
     <MESSAGE value="Update GitHub Actions to upload artifact" />
     <MESSAGE value="Try to fix upload artifact path" />
@@ -418,7 +428,9 @@
     <MESSAGE value="Make players partially visible and non collidable" />
     <MESSAGE value="Make logs prettier" />
     <MESSAGE value="Make arm compatible" />
-    <option name="LAST_COMMIT_MESSAGE" value="Make arm compatible" />
+    <MESSAGE value="Add Polar world support" />
+    <MESSAGE value="Bump version due to Polar worlds" />
+    <option name="LAST_COMMIT_MESSAGE" value="Bump version due to Polar worlds" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
