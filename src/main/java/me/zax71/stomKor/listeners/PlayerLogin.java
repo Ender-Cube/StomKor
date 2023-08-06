@@ -12,6 +12,9 @@ import net.minestom.server.entity.GameMode;
 import net.minestom.server.entity.Player;
 import net.minestom.server.event.EventListener;
 import net.minestom.server.event.player.PlayerLoginEvent;
+import net.minestom.server.network.packet.server.play.EntityEffectPacket;
+import net.minestom.server.potion.Potion;
+import net.minestom.server.potion.PotionEffect;
 import net.minestom.server.tag.Tag;
 import org.jetbrains.annotations.NotNull;
 
@@ -49,7 +52,6 @@ public class PlayerLogin implements EventListener<PlayerLoginEvent> {
 
         // Get the instance in the parkourMaps list from the string of the map name
         event.setSpawningInstance(Objects.requireNonNull(map).instance());
-
 
         player.setRespawnPoint(map.spawnPoint());
         map.startParkourSession(player);

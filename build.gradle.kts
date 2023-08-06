@@ -35,8 +35,8 @@ dependencies {
     implementation("dev.rollczi.litecommands:core:2.8.7")
     implementation("dev.rollczi.litecommands:minestom:2.8.7")
 
-    // SQLite
-    implementation("org.xerial:sqlite-jdbc:3.41.2.1")
+    // MariaDB
+    implementation("org.mariadb.jdbc:mariadb-java-client:3.1.4")
 
     // Logger
     implementation("ch.qos.logback:logback-classic:1.3.3")

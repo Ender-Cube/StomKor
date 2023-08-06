@@ -6,31 +6,29 @@ import net.minestom.server.utils.mojang.MojangUtils;
 import org.jetbrains.annotations.Nullable;
 
 import java.sql.*;
-import java.util.Objects;
-import java.util.UUID;
+import java.util.Properties;
 
-import static me.zax71.stomKor.Main.getPath;
+import static me.zax71.stomKor.Main.CONFIG;
 import static me.zax71.stomKor.Main.logger;
+import static me.zax71.stomKor.utils.ConfigUtils.getOrSetDefault;
 
 public class SQLiteHandler {
-
-    String filename;
     private Connection CONNECTION;
 
     /**
      * Initializes a database with the given name
-     * @param filename the name for the database file. Should end in .db or .sqlite
      */
-    public SQLiteHandler(String filename) {
-        this.filename = filename;
-        createDatabase("database.db");
+    public SQLiteHandler() {
+        createDatabase();
         createTable();
+        logger.info("Initialised database");
     }
 
     /**
      * Adds a time to the database
+     *
      * @param player The player the time belongs to
-     * @param time The time in milliseconds
+     * @param time   The time in milliseconds
      */
     public void addTime(Player player, String course, Long time) {
         String sql = "INSERT INTO playerTimes(player,course,time) VALUES(?,?,?)";
@@ -48,8 +46,9 @@ public class SQLiteHandler {
 
     /**
      * Gets the specified players best times ordered by an index
+     *
      * @param player player to retrieve data from
-     * @param index time to get, 1 for best
+     * @param index  time to get, 1 for best
      * @return the nth best time of that player
      */
     @Nullable
@@ -60,7 +59,7 @@ public class SQLiteHandler {
             PreparedStatement preparedStatement = CONNECTION.prepareStatement(sql);
             preparedStatement.setString(1, String.valueOf(player.getUuid()));
             preparedStatement.setString(2, course);
-            preparedStatement.setInt(3, index-1);
+            preparedStatement.setInt(3, index - 1);
             ResultSet resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) {
@@ -74,7 +73,8 @@ public class SQLiteHandler {
 
     /**
      * Gets the specified players best times ordered by an index
-     * @param UUID player's UUID to retrieve data from
+     *
+     * @param UUID  player's UUID to retrieve data from
      * @param index time to get, 1 for best
      * @return the nth best time of that player
      */
@@ -86,7 +86,7 @@ public class SQLiteHandler {
             PreparedStatement preparedStatement = CONNECTION.prepareStatement(sql);
             preparedStatement.setString(1, UUID);
             preparedStatement.setString(2, course);
-            preparedStatement.setInt(3, index-1);
+            preparedStatement.setInt(3, index - 1);
             ResultSet resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) {
@@ -100,8 +100,9 @@ public class SQLiteHandler {
 
     /**
      * Retrieves the overall nth best time for a course
+     *
      * @param course The course to get data for
-     * @param index The nth time you want
+     * @param index  The nth time you want
      * @return The time
      */
     @Nullable
@@ -111,7 +112,7 @@ public class SQLiteHandler {
         try {
             PreparedStatement preparedStatement = CONNECTION.prepareStatement(sql);
             preparedStatement.setString(1, course);
-            preparedStatement.setInt(2, index-1);
+            preparedStatement.setInt(2, index - 1);
             ResultSet resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) {
@@ -126,8 +127,9 @@ public class SQLiteHandler {
 
     /**
      * Retrieves the player with the overall nth best time
+     *
      * @param course the course to get data for
-     * @param index The nth time you want
+     * @param index  The nth time you want
      * @return the player's name
      */
     @Nullable
@@ -137,7 +139,7 @@ public class SQLiteHandler {
         try {
             PreparedStatement preparedStatement = CONNECTION.prepareStatement(sql);
             preparedStatement.setString(1, course);
-            preparedStatement.setInt(2, index-1);
+            preparedStatement.setInt(2, index - 1);
             ResultSet resultSet = preparedStatement.executeQuery();
 
             JsonObject playerNameObject = MojangUtils.fromUuid(resultSet.getString("player"));
@@ -155,6 +157,7 @@ public class SQLiteHandler {
             throw new RuntimeException(e);
         }
     }
+
     /**
      * Removes all but the top ten times per player for all players
      */
@@ -170,7 +173,7 @@ public class SQLiteHandler {
                       FROM playerTimes
                     ) AS subQuery
                     WHERE row_num <= 10
-                  );           
+                  );
                 """;
 
         try {
@@ -203,13 +206,17 @@ public class SQLiteHandler {
 
     /**
      * Creates the database file
-     * @param fileName name for the file with .db of .sqlite extension
      */
-    private void createDatabase(String fileName) {
-        String url = "jdbc:sqlite:" + getPath("config").toAbsolutePath() + "/" + fileName;
+    private void createDatabase() {
+        String url = "jdbc:mariadb://mariadb:3306/endercube?createDatabaseIfNotExist=true";
+        Properties props = new Properties();
+
+        props.setProperty("user", getOrSetDefault(CONFIG.node("database", "mariaDB", "username"), ""));
+        props.setProperty("password", getOrSetDefault(CONFIG.node("database", "mariaDB", "password"), ""));
+
 
         try {
-            CONNECTION = DriverManager.getConnection(url);
+            CONNECTION = DriverManager.getConnection(url, props);
             if (CONNECTION != null) {
                 DatabaseMetaData meta = CONNECTION.getMetaData();
             }

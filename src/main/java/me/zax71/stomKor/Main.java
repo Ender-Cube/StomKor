@@ -4,8 +4,6 @@ import com.google.gson.Gson;
 import dev.rollczi.litecommands.minestom.LiteMinestomFactory;
 import me.zax71.stomKor.blocks.Sign;
 import me.zax71.stomKor.blocks.Skull;
-import me.zax71.stomKor.commands.HubCommand;
-import me.zax71.stomKor.commands.LeaderboardCommand;
 import me.zax71.stomKor.commands.ReloadCommand;
 import me.zax71.stomKor.commands.arguments.ParkourMapArgument;
 import me.zax71.stomKor.commands.arguments.PlayerArgument;
@@ -98,7 +96,7 @@ public class Main {
         initRedis();
         initCommands();
         initAPI();
-        SQLite = new SQLiteHandler("database.db");
+        SQLite = new SQLiteHandler();
 
 
     }
@@ -151,8 +149,6 @@ public class Main {
     private static void initCommands() {
         LiteMinestomFactory.builder(MinecraftServer.getServer(), MinecraftServer.getCommandManager())
                 .commandInstance(new ReloadCommand())
-                .commandInstance(new HubCommand())
-                .commandInstance(new LeaderboardCommand())
                 // TODO: Will reimplement in future update. Not multi server ready
                 // .commandInstance(new SpectateCommand())
                 .argument(ParkourMap.class, new ParkourMapArgument(MinecraftServer.getServer()))
@@ -167,7 +163,7 @@ public class Main {
                 .name(NamespaceID.from("minecraft:the_void"))
                 .build()
         );
-        
+
         // Create limbo Instance
         LIMBO = MinecraftServer.getInstanceManager().createInstanceContainer(
                 FullbrightDimension.INSTANCE
