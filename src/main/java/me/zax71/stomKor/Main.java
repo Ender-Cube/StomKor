@@ -118,14 +118,14 @@ public class Main {
         );
 
         // Create a list of serialised parkour maps
-        List<HashMap<String, String>> serialiseableParkourMaps = new ArrayList<>();
+        List<HashMap<String, String>> serializableParkourMaps = new ArrayList<>();
 
         for (ParkourMap map : parkourMaps) {
-            serialiseableParkourMaps.add(map.serialise());
+            serializableParkourMaps.add(map.serialise());
         }
 
         // Turn that in to a JSON
-        String parkourMapsJson = new Gson().toJson(serialiseableParkourMaps);
+        String parkourMapsJson = new Gson().toJson(serializableParkourMaps);
 
         // Write to the Redis DB
         redis.set("parkourMaps", parkourMapsJson);
@@ -192,7 +192,8 @@ public class Main {
                         getPosFromConfig(configNode.node("spawn")),
                         getPosFromConfig(configNode.node("finish")),
                         configNode.node("death-y").get(Short.class),
-                        getItemStackFromConfig(configNode.node("UIMaterial"))
+                        getItemStackFromConfig(configNode.node("UIMaterial")),
+                        configNode.node("order").getInt()
                 ));
             } catch (IOException e) {
                 throw new RuntimeException(e);

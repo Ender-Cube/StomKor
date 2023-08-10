@@ -21,10 +21,10 @@ import java.util.HashMap;
  * @param checkpoints
  */
 public record ParkourMap(InstanceContainer instance, String name, String difficulty, Pos[] checkpoints, Pos spawnPoint,
-                         Pos finishPoint, Short deathY, @Nullable ItemStack inventoryMaterial) {
+                         Pos finishPoint, Short deathY, @Nullable ItemStack inventoryMaterial, int order) {
 
     public ParkourMap(InstanceContainer instance, String name, String difficulty, Pos[] checkpoints, Pos spawnPoint,
-                      Pos finishPoint, Short deathY, ItemStack inventoryMaterial) {
+                      Pos finishPoint, Short deathY, ItemStack inventoryMaterial, int order) {
         this.instance = instance;
         this.name = name;
         this.difficulty = difficulty;
@@ -33,6 +33,7 @@ public record ParkourMap(InstanceContainer instance, String name, String difficu
         this.finishPoint = finishPoint;
         this.deathY = deathY;
         this.inventoryMaterial = inventoryMaterial;
+        this.order = order;
 
         instance.setTimeRate(0);
     }
@@ -78,6 +79,7 @@ public record ParkourMap(InstanceContainer instance, String name, String difficu
         parkourMapHashMap.put("name", this.name);
         parkourMapHashMap.put("difficulty", this.difficulty);
         parkourMapHashMap.put("checkpoints", String.valueOf(this.checkpoints.length));
+        parkourMapHashMap.put("order", String.valueOf(this.order));
 
         if (inventoryMaterial == null) {
             parkourMapHashMap.put("materialType", "BARRIER");
