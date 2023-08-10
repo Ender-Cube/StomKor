@@ -4,10 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="4d97943a-8f2a-4d65-84f3-b8137f62bbc6" name="Changes" comment="Switch from SQLite to MariaDB and remove /hub as well as /leaderboard">
+    <list default="true" id="4d97943a-8f2a-4d65-84f3-b8137f62bbc6" name="Changes" comment="Implement UI changes">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/zax71/stomKor/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/zax71/stomKor/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/zax71/stomKor/ParkourMap.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/zax71/stomKor/ParkourMap.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/zax71/stomKor/inventories/MapInventory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/zax71/stomKor/inventories/MapInventory.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -418,7 +417,15 @@
       <option name="project" value="LOCAL" />
       <updated>1691340631297</updated>
     </task>
-    <option name="localTasksCounter" value="34" />
+    <task id="LOCAL-00034" summary="Add map ordering config option">
+      <option name="closed" value="true" />
+      <created>1691677060374</created>
+      <option name="number" value="00034" />
+      <option name="presentableId" value="LOCAL-00034" />
+      <option name="project" value="LOCAL" />
+      <updated>1691677060375</updated>
+    </task>
+    <option name="localTasksCounter" value="35" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -434,7 +441,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
-    <MESSAGE value="Try to fix upload artifact path" />
     <MESSAGE value="Try more caching" />
     <MESSAGE value="Some SQL is added, but I forgot that other courses exist, time to start again!" />
     <MESSAGE value="Add /leaderboard command, fix SQL bugs and add a text centering method" />
@@ -459,7 +465,8 @@
     <MESSAGE value="Bump version due to Polar worlds" />
     <MESSAGE value="Register minecraft:the_void" />
     <MESSAGE value="Switch from SQLite to MariaDB and remove /hub as well as /leaderboard" />
-    <option name="LAST_COMMIT_MESSAGE" value="Switch from SQLite to MariaDB and remove /hub as well as /leaderboard" />
+    <MESSAGE value="Add map ordering config option" />
+    <option name="LAST_COMMIT_MESSAGE" value="Add map ordering config option" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
