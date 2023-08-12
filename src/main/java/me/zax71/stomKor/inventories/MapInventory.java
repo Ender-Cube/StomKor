@@ -1,10 +1,9 @@
 package me.zax71.stomKor.inventories;
 
-import com.google.common.io.ByteArrayDataOutput;
-import com.google.common.io.ByteStreams;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import me.zax71.stomKor.ParkourMap;
+import me.zax71.stomKor.ParkourPlayer;
 import net.kyori.adventure.sound.Sound;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
@@ -15,7 +14,6 @@ import net.minestom.server.inventory.InventoryType;
 import net.minestom.server.inventory.click.ClickType;
 import net.minestom.server.inventory.condition.InventoryConditionResult;
 import net.minestom.server.item.*;
-import net.minestom.server.network.packet.server.play.PluginMessagePacket;
 import net.minestom.server.sound.SoundEvent;
 import net.minestom.server.tag.Tag;
 import org.jetbrains.annotations.Nullable;
@@ -78,6 +76,7 @@ public class MapInventory {
     }
 
     private void inventoryCondition(Player player, int slot, ClickType clickType, InventoryConditionResult inventoryConditionResult) {
+
         // Stop items from being moved around
         inventoryConditionResult.setCancel(true);
 
@@ -86,16 +85,15 @@ public class MapInventory {
         // Deal with sending a player to a map
         if (Arrays.stream(mapSlots).anyMatch(i -> i == slot)) {
             String map = inventory.getItemStack(slot).getTag(Tag.String("map"));
-            sendToMap(player, map);
+            sendToMap((ParkourPlayer) player, map);
             player.sendMessage("Sending you to " + map);
-
         }
 
         switch (slot) {
             case 3 -> setState("easy", player);
             case 4 -> setState("medium", player);
             case 5 -> setState("hard", player);
-            case 44 -> sendToHub(player);
+            case 44 -> ((ParkourPlayer) player).gotoHub();
         }
     }
 
@@ -199,7 +197,6 @@ public class MapInventory {
 
     }
 
-
     private List<HashMap<String, String>> getParkourMapsFromRedis() {
         // Init Redis
         Jedis redis = new Jedis(
@@ -214,7 +211,7 @@ public class MapInventory {
         return new Gson().fromJson(redis.get("parkourMaps"), typeToken);
     }
 
-    private void sendToMap(Player player, String mapName) {
+    private void sendToMap(ParkourPlayer player, String mapName) {
         player.playSound(Sound.sound(
                 SoundEvent.BLOCK_NOTE_BLOCK_PLING,
                 Sound.Source.PLAYER,
@@ -222,6 +219,7 @@ public class MapInventory {
                 1f)
         );
 
+        // Get a map from string
         ParkourMap map = parkourMaps.stream().filter(filterMap -> Objects.equals(filterMap.name(), mapName)).findFirst().orElse(null);
 
         Objects.requireNonNull(map).teleportSpawn(player);
@@ -229,20 +227,6 @@ public class MapInventory {
         logger.info("Sent " + player.getUsername() + " to " + mapName);
 
         player.closeInventory();
-    }
-
-    private void sendToHub(Player player) {
-        player.playSound(Sound.sound(
-                SoundEvent.BLOCK_NOTE_BLOCK_PLING,
-                Sound.Source.PLAYER,
-                1f,
-                1f)
-        );
-
-        ByteArrayDataOutput out = ByteStreams.newDataOutput();
-        out.writeUTF("Connect");
-        out.writeUTF("hub");
-        player.sendPacket(new PluginMessagePacket("BungeeCord", out.toByteArray()));
     }
 
     public static Inventory getInventory() {

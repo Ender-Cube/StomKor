@@ -1,6 +1,6 @@
 package me.zax71.stomKor.listeners;
 
-import net.minestom.server.entity.Player;
+import me.zax71.stomKor.ParkourPlayer;
 import net.minestom.server.event.EventListener;
 import net.minestom.server.event.player.AsyncPlayerPreLoginEvent;
 import net.minestom.server.tag.Tag;
@@ -23,7 +23,7 @@ public class AsyncPlayerPreLogin implements EventListener<AsyncPlayerPreLoginEve
     @Override
     public @NotNull net.minestom.server.event.EventListener.Result run(@NotNull AsyncPlayerPreLoginEvent event) {
 
-        Player player = event.getPlayer();
+        ParkourPlayer player = (ParkourPlayer) event.getPlayer();
 
         // Get the player's playerRedisMessageMap from the queue
         @Nullable

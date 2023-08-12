@@ -4,6 +4,7 @@ import dev.rollczi.litecommands.argument.ArgumentName;
 import dev.rollczi.litecommands.argument.simple.OneArgument;
 import dev.rollczi.litecommands.command.LiteInvocation;
 import dev.rollczi.litecommands.suggestion.Suggestion;
+import me.zax71.stomKor.ParkourPlayer;
 import net.minestom.server.MinecraftServer;
 import net.minestom.server.entity.Player;
 import net.minestom.server.network.socket.Server;
@@ -18,7 +19,7 @@ import java.util.stream.Collectors;
  * {@link Player}
  */
 @ArgumentName("player")
-public class PlayerArgument implements OneArgument<Player> {
+public class PlayerArgument implements OneArgument<ParkourPlayer> {
 
     private final Server server;
 
@@ -28,9 +29,13 @@ public class PlayerArgument implements OneArgument<Player> {
 
     // Acceptable inputs
     @Override
-    public Result<Player, Object> parse(LiteInvocation invocation, String argument) {
+    public Result<ParkourPlayer, Object> parse(LiteInvocation invocation, String argument) {
         return Option.ofOptional(
-                        MinecraftServer.getConnectionManager().getOnlinePlayers().stream()
+                        MinecraftServer
+                                .getConnectionManager()
+                                .getOnlinePlayers()
+                                .stream()
+                                .map(player -> (ParkourPlayer) player)
                                 .filter(player -> player.getUsername().equals(argument))
                                 .findFirst()
                 )

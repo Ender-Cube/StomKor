@@ -3,18 +3,15 @@ package me.zax71.stomKor.listeners;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import me.zax71.stomKor.ParkourMap;
+import me.zax71.stomKor.ParkourPlayer;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.serializer.ansi.ANSIComponentSerializer;
 import net.minestom.server.MinecraftServer;
 import net.minestom.server.adventure.audience.Audiences;
 import net.minestom.server.entity.GameMode;
-import net.minestom.server.entity.Player;
 import net.minestom.server.event.EventListener;
 import net.minestom.server.event.player.PlayerLoginEvent;
-import net.minestom.server.network.packet.server.play.EntityEffectPacket;
-import net.minestom.server.potion.Potion;
-import net.minestom.server.potion.PotionEffect;
 import net.minestom.server.tag.Tag;
 import org.jetbrains.annotations.NotNull;
 
@@ -33,7 +30,7 @@ public class PlayerLogin implements EventListener<PlayerLoginEvent> {
 
     @Override
     public @NotNull Result run(@NotNull PlayerLoginEvent event) {
-        Player player = event.getPlayer();
+        ParkourPlayer player = (ParkourPlayer) event.getPlayer();
 
         Tag<String> playerRedisMessageMapTag = Tag.String("playerRedisMessageMap");
 
@@ -54,7 +51,7 @@ public class PlayerLogin implements EventListener<PlayerLoginEvent> {
         event.setSpawningInstance(Objects.requireNonNull(map).instance());
 
         player.setRespawnPoint(map.spawnPoint());
-        map.startParkourSession(player);
+        player.startParkourSession();
         player.setGameMode(GameMode.ADVENTURE);
 
         // Tell players, and the log, that someone joined

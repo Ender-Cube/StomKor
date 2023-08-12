@@ -2,10 +2,10 @@ package me.zax71.stomKor.listeners;
 
 import io.leangen.geantyref.TypeToken;
 import me.zax71.stomKor.ParkourMap;
+import me.zax71.stomKor.ParkourPlayer;
 import me.zax71.stomKor.inventories.MapInventory;
 import net.kyori.adventure.sound.Sound;
 import net.minestom.server.entity.GameMode;
-import net.minestom.server.entity.Player;
 import net.minestom.server.event.EventListener;
 import net.minestom.server.event.player.PlayerMoveEvent;
 import net.minestom.server.sound.SoundEvent;
@@ -15,7 +15,8 @@ import org.spongepowered.configurate.serialize.SerializationException;
 
 import java.util.Random;
 
-import static me.zax71.stomKor.Main.*;
+import static me.zax71.stomKor.Main.CONFIG;
+import static me.zax71.stomKor.Main.SQLite;
 import static me.zax71.stomKor.utils.ComponentUtils.toHumanReadableTime;
 import static net.minestom.server.event.EventListener.Result.SUCCESS;
 
@@ -26,9 +27,33 @@ public class PlayerMove implements EventListener<PlayerMoveEvent> {
         return PlayerMoveEvent.class;
     }
 
+    /**
+     * Gets a random death message from config
+     * @return The selected death message. "" if none are specified
+     */
+    private String getRandomDeathMessage() {
+        // Get a random death message from config
+        String[] deathMessages;
+        try {
+            deathMessages = CONFIG.node("messages", "deathMessages").get(new TypeToken<>() {
+            });
+        } catch (SerializationException e) {
+            throw new RuntimeException(e);
+        }
+        Random rand = new Random();
+
+        // Send the message
+        if (deathMessages != null) {
+            int messageInt = rand.nextInt(deathMessages.length);
+            return deathMessages[messageInt];
+        }
+
+        return "";
+    }
+
     @Override
     public @NotNull net.minestom.server.event.EventListener.Result run(@NotNull PlayerMoveEvent event) {
-        Player player = event.getPlayer();
+        ParkourPlayer player = (ParkourPlayer) event.getPlayer();
         Tag<Boolean> spectating = Tag.Boolean("spectating");
 
         // No checks should take place if spectating
@@ -36,9 +61,7 @@ public class PlayerMove implements EventListener<PlayerMoveEvent> {
             return SUCCESS;
         }
 
-        ParkourMap currentMap = parkourMaps.stream().filter(parkourMap -> parkourMap.instance().equals(player.getInstance())).findAny().orElse(null);
-        Tag<Integer> checkpoint = Tag.Integer("checkpoint");
-        Tag<Boolean> startedTimer = Tag.Boolean("startedTimer");
+        ParkourMap currentMap = player.getParkourMap();
 
         // If we can't find a map matching the instance, return
         if (currentMap == null) {
@@ -46,48 +69,27 @@ public class PlayerMove implements EventListener<PlayerMoveEvent> {
         }
 
         // Start timer on player move
-        if (!player.getTag(startedTimer)) {
-            Tag<Long> startTime = Tag.Long("startTime");
-            player.setTag(startTime, System.currentTimeMillis());
-            player.setTag(startedTimer, true);
+        if (!player.getTag(Tag.Boolean("startedTimer"))) {
+            player.setTag(Tag.Long("startTime"), System.currentTimeMillis());
+            player.setTag(Tag.Boolean("startedTimer"), true);
             player.sendMessage("Started Timer");
         }
 
-        // See if player is below the death barrier and if so, teleport them to spawn or current checkpoint
+        // See if player is below the death barrier and if so, teleport them to spawn or current checkpoint and send death message
         if (player.getPosition().y() < currentMap.deathY()) {
-
-            // Get a random death message from config
-            String[] deathMessages;
-            try {
-                deathMessages = CONFIG.node("messages", "deathMessages").get(new TypeToken<>() {
-                });
-            } catch (SerializationException e) {
-                throw new RuntimeException(e);
-            }
-            Random rand = new Random();
-
-            // Send the message
-            if (deathMessages != null) {
-                int messageInt = rand.nextInt(deathMessages.length);
-                player.sendMessage(deathMessages[messageInt]);
-            }
-
-            if (player.getTag(checkpoint) == -1) {
-                player.teleport(currentMap.spawnPoint());
-            } else {
-                player.teleport(currentMap.checkpoints()[player.getTag(checkpoint)]);
-            }
+            player.sendMessage(getRandomDeathMessage());
+            player.gotoCheckpoint();
 
         }
 
-        // See if player is at checkpoint:
-        if (player.getTag(checkpoint) < currentMap.checkpoints().length - 1) {
+        // See if player is at next checkpoint and deal with it
+        if (player.getTag(Tag.Integer("checkpoint")) < currentMap.checkpoints().length - 1) {
             // Check if the player is at their current checkpoint
-            if (player.getPosition().sameBlock(currentMap.checkpoints()[player.getTag(checkpoint) + 1])) {
+            if (player.getPosition().sameBlock(currentMap.checkpoints()[player.getTag(Tag.Integer("checkpoint")) + 1])) {
 
                 // Increment the checkpoint tag, send message and play a sound
-                player.setTag(checkpoint, player.getTag(checkpoint) + 1);
-                player.sendMessage("Checkpoint " + (player.getTag(checkpoint) + 1) + " completed!");
+                player.setTag(Tag.Integer("checkpoint"), player.getTag(Tag.Integer("checkpoint")) + 1);
+                player.sendMessage("Checkpoint " + (player.getTag(Tag.Integer("checkpoint")) + 1) + " completed!");
                 player.playSound(Sound.sound(SoundEvent.ENTITY_PLAYER_LEVELUP, Sound.Source.PLAYER, 1f, 1f));
             }
         }
@@ -95,7 +97,7 @@ public class PlayerMove implements EventListener<PlayerMoveEvent> {
 
         // See if player is at finish and has completed all checkpoints
         if (player.getPosition().sameBlock(currentMap.finishPoint())) {
-            if (player.getTag(checkpoint).equals(currentMap.checkpoints().length - 1)) {
+            if (player.getTag(Tag.Integer("checkpoint")).equals(currentMap.checkpoints().length - 1)) {
                 // Set the player to spectator and set finishedMap
                 player.setTag(Tag.Boolean("spectating"), true);
                 player.setTag(Tag.Boolean("finishedMap"), true);
@@ -115,12 +117,9 @@ public class PlayerMove implements EventListener<PlayerMoveEvent> {
 
                 player.openInventory(MapInventory.getInventory());
             } else {
-                player.sendMessage("You haven't completed all the checkpoints! You are currently at checkpoint " + (player.getTag(checkpoint) + 1));
+                player.sendMessage("You haven't completed all the checkpoints! You are currently at checkpoint " + (player.getTag(Tag.Integer("checkpoint")) + 1));
             }
-
         }
         return SUCCESS;
     }
-
-
 }

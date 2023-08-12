@@ -4,20 +4,19 @@ import dev.rollczi.litecommands.argument.Arg;
 import dev.rollczi.litecommands.command.execute.Execute;
 import dev.rollczi.litecommands.command.route.Route;
 import me.zax71.stomKor.ParkourMap;
+import me.zax71.stomKor.ParkourPlayer;
 import net.minestom.server.command.CommandSender;
 import net.minestom.server.entity.GameMode;
 import net.minestom.server.entity.Player;
 import net.minestom.server.tag.Tag;
 
-import static me.zax71.stomKor.Main.parkourMaps;
-
 @Route(name = "spectate")
 public class SpectateCommand {
 
     @Execute
-    void execute(CommandSender sender, @Arg Player spectatingPlayer) {
+    void execute(CommandSender sender, @Arg ParkourPlayer spectatingPlayer) {
         Player player = (Player) sender;
-        ParkourMap playersMap = parkourMaps.stream().filter(parkourMap -> parkourMap.instance().equals(spectatingPlayer.getInstance())).findAny().orElse(null);
+        ParkourMap playersMap = spectatingPlayer.getParkourMap();
 
         if (playersMap == null) {
             player.sendMessage("The player you selected is not in a map or does not exist");

@@ -12,7 +12,6 @@ import me.zax71.stomKor.utils.FullbrightDimension;
 import me.zax71.stomKor.utils.SQLiteHandler;
 import net.hollowcube.polar.PolarLoader;
 import net.minestom.server.MinecraftServer;
-import net.minestom.server.entity.Player;
 import net.minestom.server.event.Event;
 import net.minestom.server.event.EventFilter;
 import net.minestom.server.event.EventNode;
@@ -69,6 +68,9 @@ public class Main {
         // Register block handlers
         MinecraftServer.getBlockManager().registerHandler(NamespaceID.from("minecraft:sign"), Sign::new);
         MinecraftServer.getBlockManager().registerHandler(NamespaceID.from("minecraft:skull"), Skull::new);
+
+        // Register custom player
+        MinecraftServer.getConnectionManager().setPlayerProvider(ParkourPlayer::new);
 
         switch (getOrSetDefault(CONFIG.node("connection", "mode"), "online")) {
             case "online" -> MojangAuth.init();
@@ -152,7 +154,7 @@ public class Main {
                 // TODO: Will reimplement in future update. Not multi server ready
                 // .commandInstance(new SpectateCommand())
                 .argument(ParkourMap.class, new ParkourMapArgument(MinecraftServer.getServer()))
-                .argument(Player.class, new PlayerArgument(MinecraftServer.getServer()))
+                .argument(ParkourPlayer.class, new PlayerArgument(MinecraftServer.getServer()))
                 .register();
     }
 
