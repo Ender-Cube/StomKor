@@ -67,7 +67,6 @@ public class PlayerLogin implements EventListener<PlayerLoginEvent> {
 
         // Set team
         player.setTeam(MinecraftServer.getTeamManager().getTeam("noCollision"));
-        player.setInvisible(true);
         return Result.SUCCESS;
     }
 }

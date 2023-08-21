@@ -16,6 +16,8 @@ import net.minestom.server.event.Event;
 import net.minestom.server.event.EventFilter;
 import net.minestom.server.event.EventNode;
 import net.minestom.server.event.GlobalEventHandler;
+import net.minestom.server.event.inventory.InventoryPreClickEvent;
+import net.minestom.server.event.player.PlayerSwapItemEvent;
 import net.minestom.server.extras.MojangAuth;
 import net.minestom.server.extras.velocity.VelocityProxy;
 import net.minestom.server.instance.InstanceContainer;
@@ -62,7 +64,11 @@ public class Main {
                 .addListener(new AsyncPlayerPreLogin())
                 .addListener(new PlayerBlockBreak())
                 .addListener(new InventoryClose())
-                .addListener(new PlayerMove());
+                .addListener(new PlayerMove())
+                .addListener(new PlayerSpawn())
+                .addListener(new PlayerUseItem())
+                .addListener(InventoryPreClickEvent.class, event -> event.setCancelled(true))
+                .addListener(PlayerSwapItemEvent.class, event -> event.setCancelled(true));
         globalEventHandler.addChild(entityNode);
 
         // Register block handlers
@@ -86,8 +92,14 @@ public class Main {
         minecraftServer.start("0.0.0.0", Integer.parseInt(getOrSetDefault(CONFIG.node("connection", "port"), "25565")));
         logger.info("Starting server on port " + Integer.parseInt(getOrSetDefault(CONFIG.node("connection", "port"), "25565")) + " with " + getOrSetDefault(CONFIG.node("connection", "mode"), "online") + " encryption");
 
-        // Create the team to turn off collisions and make players partially visible
+        // Create the team to turn off collisions
         MinecraftServer.getTeamManager().createBuilder("noCollision")
+                .collisionRule(TeamsPacket.CollisionRule.NEVER)
+                .updateTeamPacket()
+                .build();
+
+        // Create the team to make players ghosts
+        MinecraftServer.getTeamManager().createBuilder("ghostPlayers")
                 .collisionRule(TeamsPacket.CollisionRule.NEVER)
                 .seeInvisiblePlayers()
                 .updateTeamPacket()
