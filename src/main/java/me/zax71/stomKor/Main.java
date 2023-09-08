@@ -1,15 +1,23 @@
 package me.zax71.stomKor;
 
 import com.google.gson.Gson;
+import com.zaxxer.hikari.HikariDataSource;
 import dev.rollczi.litecommands.minestom.LiteMinestomFactory;
 import me.zax71.stomKor.blocks.Sign;
 import me.zax71.stomKor.blocks.Skull;
 import me.zax71.stomKor.commands.ReloadCommand;
 import me.zax71.stomKor.commands.arguments.ParkourMapArgument;
 import me.zax71.stomKor.commands.arguments.PlayerArgument;
-import me.zax71.stomKor.listeners.*;
+import me.zax71.stomKor.listeners.AsyncPlayerPreLogin;
+import me.zax71.stomKor.listeners.InventoryClose;
+import me.zax71.stomKor.listeners.PlayerBlockBreak;
+import me.zax71.stomKor.listeners.PlayerLogin;
+import me.zax71.stomKor.listeners.PlayerMove;
+import me.zax71.stomKor.listeners.PlayerSpawn;
+import me.zax71.stomKor.listeners.PlayerUseItem;
+import me.zax71.stomKor.listeners.RedisSub;
 import me.zax71.stomKor.utils.FullbrightDimension;
-import me.zax71.stomKor.utils.SQLiteHandler;
+import net.endercube.EndercubeCommon.SQLWrapper;
 import net.hollowcube.polar.PolarLoader;
 import net.minestom.server.MinecraftServer;
 import net.minestom.server.event.Event;
@@ -35,10 +43,18 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.nio.file.Path;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 
 import static me.zax71.stomKor.API.initAPI;
-import static me.zax71.stomKor.utils.ConfigUtils.*;
+import static me.zax71.stomKor.utils.ConfigUtils.getItemStackFromConfig;
+import static me.zax71.stomKor.utils.ConfigUtils.getOrSetDefault;
+import static me.zax71.stomKor.utils.ConfigUtils.getPosFromConfig;
+import static me.zax71.stomKor.utils.ConfigUtils.getPosListFromConfig;
+import static me.zax71.stomKor.utils.ConfigUtils.initConfig;
 
 public class Main {
     public static InstanceContainer LIMBO;
@@ -47,7 +63,7 @@ public class Main {
     public static HoconConfigurationLoader LOADER;
     public static List<ParkourMap> parkourMaps = new ArrayList<>();
     public static List<Map<String, String>> playerMapQueue = new ArrayList<>();
-    public static SQLiteHandler SQLite;
+    public static SQLWrapper SQLite;
     public static final Logger logger = LoggerFactory.getLogger(Main.class);
 
     public static void main(String[] args) {
@@ -105,12 +121,17 @@ public class Main {
                 .updateTeamPacket()
                 .build();
 
+        // Add uncaught exception handler
+        Thread.currentThread().setUncaughtExceptionHandler((thread, throwable) -> {
+            logger.error("Uncaught exception: " + throwable.getMessage());
+            throwable.printStackTrace();
+        });
 
         initWorlds();
+        initSQL();
         initRedis();
         initCommands();
         initAPI();
-        SQLite = new SQLiteHandler();
 
 
     }
@@ -124,6 +145,14 @@ public class Main {
         }
     }
 
+    private static void initSQL() {
+        HikariDataSource dataSource = new HikariDataSource();
+        dataSource.setJdbcUrl("jdbc:mariadb://mariadb:3306/endercube?createDatabaseIfNotExist=true");
+        dataSource.setUsername(getOrSetDefault(CONFIG.node("database", "mariaDB", "username"), ""));
+        dataSource.setPassword(getOrSetDefault(CONFIG.node("database", "mariaDB", "password"), ""));
+        SQLite = new SQLWrapper(dataSource);
+    }
+
     private static void redisLogParkourMaps() {
         // Init Redis
         Jedis redis = new Jedis(
@@ -133,7 +162,6 @@ public class Main {
 
         // Create a list of serialised parkour maps
         List<HashMap<String, String>> serializableParkourMaps = new ArrayList<>();
-
         for (ParkourMap map : parkourMaps) {
             serializableParkourMaps.add(map.serialise());
         }

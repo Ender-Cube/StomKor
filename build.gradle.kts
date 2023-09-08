@@ -9,6 +9,7 @@ version = "1.5.0"
 
 repositories {
     mavenCentral()
+    mavenLocal()
     maven("https://jitpack.io")
     maven("https://repo.panda-lang.org/releases")
     maven(url = "https://s01.oss.sonatype.org/content/repositories/snapshots/") {
@@ -23,6 +24,12 @@ dependencies {
     // Polar
     implementation("dev.hollowcube:polar:1.3.1")
 
+    // Endercube common lib
+    implementation("com.github.ender-cube:endercubecommon:c0568a8281")
+
+    // HikariCP
+    implementation("com.zaxxer:HikariCP:5.0.1")
+
     // Kyori stuff (Adventure)
     implementation("net.kyori:adventure-text-serializer-plain:4.13.1")
     implementation("net.kyori:adventure-text-minimessage:4.13.1")
@@ -34,9 +41,6 @@ dependencies {
     // LiteCommands (command framework)
     implementation("dev.rollczi.litecommands:core:2.8.7")
     implementation("dev.rollczi.litecommands:minestom:2.8.7")
-
-    // MariaDB
-    implementation("org.mariadb.jdbc:mariadb-java-client:3.1.4")
 
     // Logger
     implementation("ch.qos.logback:logback-classic:1.3.3")
