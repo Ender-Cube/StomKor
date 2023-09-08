@@ -7,8 +7,6 @@
     <list default="true" id="4d97943a-8f2a-4d65-84f3-b8137f62bbc6" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle.kts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/zax71/stomKor/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/zax71/stomKor/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/zax71/stomKor/utils/SQLiteHandler.java" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -454,7 +452,15 @@
       <option name="project" value="LOCAL" />
       <updated>1692619071779</updated>
     </task>
-    <option name="localTasksCounter" value="38" />
+    <task id="LOCAL-00038" summary="Switch to HikariCP and implement EndercubeCommon">
+      <option name="closed" value="true" />
+      <created>1694189746386</created>
+      <option name="number" value="00038" />
+      <option name="presentableId" value="LOCAL-00038" />
+      <option name="project" value="LOCAL" />
+      <updated>1694189746387</updated>
+    </task>
+    <option name="localTasksCounter" value="39" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -470,7 +476,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
-    <MESSAGE value="Broadcast player join in yellow" />
     <MESSAGE value="Added death messages and fixed respawning bug" />
     <MESSAGE value="Fix build" />
     <MESSAGE value="Remove /mode" />
@@ -495,7 +500,8 @@
     <MESSAGE value="Implement UI changes" />
     <MESSAGE value="Refactor with ParkourPlayer instead of Player" />
     <MESSAGE value="Add items to player inv" />
-    <option name="LAST_COMMIT_MESSAGE" value="Add items to player inv" />
+    <MESSAGE value="Switch to HikariCP and implement EndercubeCommon" />
+    <option name="LAST_COMMIT_MESSAGE" value="Switch to HikariCP and implement EndercubeCommon" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

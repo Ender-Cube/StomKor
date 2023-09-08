@@ -19,7 +19,7 @@ repositories {
 
 dependencies {
     // Minestom
-    implementation("dev.hollowcube:minestom-ce:9c6cb1796c")
+    implementation("dev.hollowcube:minestom-ce:010fe985bb")
 
     // Polar
     implementation("dev.hollowcube:polar:1.3.1")
