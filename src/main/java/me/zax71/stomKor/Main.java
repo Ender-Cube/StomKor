@@ -11,6 +11,7 @@ import me.zax71.stomKor.commands.arguments.PlayerArgument;
 import me.zax71.stomKor.listeners.AsyncPlayerPreLogin;
 import me.zax71.stomKor.listeners.InventoryClose;
 import me.zax71.stomKor.listeners.PlayerBlockBreak;
+import me.zax71.stomKor.listeners.PlayerDisconnect;
 import me.zax71.stomKor.listeners.PlayerLogin;
 import me.zax71.stomKor.listeners.PlayerMove;
 import me.zax71.stomKor.listeners.PlayerSpawn;
@@ -77,6 +78,7 @@ public class Main {
         EventNode<Event> entityNode = EventNode.type("listeners", EventFilter.ALL);
         entityNode
                 .addListener(new PlayerLogin())
+                .addListener(new PlayerDisconnect())
                 .addListener(new AsyncPlayerPreLogin())
                 .addListener(new PlayerBlockBreak())
                 .addListener(new InventoryClose())
