@@ -4,11 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="4d97943a-8f2a-4d65-84f3-b8137f62bbc6" name="Changes" comment="Update Minestom">
-      <change afterPath="$PROJECT_DIR$/src/main/java/me/zax71/stomKor/listeners/PlayerDisconnect.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/zax71/stomKor/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/zax71/stomKor/Main.java" afterDir="false" />
-    </list>
+    <list default="true" id="4d97943a-8f2a-4d65-84f3-b8137f62bbc6" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -187,6 +183,7 @@
       <option name="presentableId" value="Default" />
       <updated>1681753407771</updated>
       <workItem from="1694861792070" duration="191000" />
+      <workItem from="1694862185172" duration="201000" />
     </task>
     <task id="LOCAL-00001" summary="Initial commit (broken rn)">
       <created>1682016231988</created>
@@ -476,7 +473,15 @@
       <option name="project" value="LOCAL" />
       <updated>1694195285266</updated>
     </task>
-    <option name="localTasksCounter" value="40" />
+    <task id="LOCAL-00040" summary="Add logout message">
+      <option name="closed" value="true" />
+      <created>1694862200823</created>
+      <option name="number" value="00040" />
+      <option name="presentableId" value="LOCAL-00040" />
+      <option name="project" value="LOCAL" />
+      <updated>1694862200823</updated>
+    </task>
+    <option name="localTasksCounter" value="41" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -495,7 +500,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
-    <MESSAGE value="Fix build" />
     <MESSAGE value="Remove /mode" />
     <MESSAGE value="Switch to logback, switch to Minestom-ce (and thus update to 1.19.3)" />
     <MESSAGE value="Fix build, oops!" />
@@ -520,7 +524,8 @@
     <MESSAGE value="Add items to player inv" />
     <MESSAGE value="Switch to HikariCP and implement EndercubeCommon" />
     <MESSAGE value="Update Minestom" />
-    <option name="LAST_COMMIT_MESSAGE" value="Update Minestom" />
+    <MESSAGE value="Add logout message" />
+    <option name="LAST_COMMIT_MESSAGE" value="Add logout message" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

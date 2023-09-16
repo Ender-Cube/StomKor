@@ -65,7 +65,7 @@ public class PlayerLogin implements EventListener<PlayerLoginEvent> {
         // Initialise finishedMap tag
         player.setTag(Tag.Boolean("finishedMap"), false);
 
-        // Set team
+        // Set team for no collisions
         player.setTeam(MinecraftServer.getTeamManager().getTeam("noCollision"));
         return Result.SUCCESS;
     }

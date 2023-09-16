@@ -74,20 +74,7 @@ public class Main {
         MinecraftServer minecraftServer = MinecraftServer.init();
 
         // Register events
-        GlobalEventHandler globalEventHandler = MinecraftServer.getGlobalEventHandler();
-        EventNode<Event> entityNode = EventNode.type("listeners", EventFilter.ALL);
-        entityNode
-                .addListener(new PlayerLogin())
-                .addListener(new PlayerDisconnect())
-                .addListener(new AsyncPlayerPreLogin())
-                .addListener(new PlayerBlockBreak())
-                .addListener(new InventoryClose())
-                .addListener(new PlayerMove())
-                .addListener(new PlayerSpawn())
-                .addListener(new PlayerUseItem())
-                .addListener(InventoryPreClickEvent.class, event -> event.setCancelled(true))
-                .addListener(PlayerSwapItemEvent.class, event -> event.setCancelled(true));
-        globalEventHandler.addChild(entityNode);
+        initEvents();
 
         // Register block handlers
         MinecraftServer.getBlockManager().registerHandler(NamespaceID.from("minecraft:sign"), Sign::new);
@@ -96,6 +83,7 @@ public class Main {
         // Register custom player
         MinecraftServer.getConnectionManager().setPlayerProvider(ParkourPlayer::new);
 
+        // Online mode or velocity?
         switch (getOrSetDefault(CONFIG.node("connection", "mode"), "online")) {
             case "online" -> MojangAuth.init();
             case "velocity" -> {
@@ -113,13 +101,6 @@ public class Main {
         // Create the team to turn off collisions
         MinecraftServer.getTeamManager().createBuilder("noCollision")
                 .collisionRule(TeamsPacket.CollisionRule.NEVER)
-                .updateTeamPacket()
-                .build();
-
-        // Create the team to make players ghosts
-        MinecraftServer.getTeamManager().createBuilder("ghostPlayers")
-                .collisionRule(TeamsPacket.CollisionRule.NEVER)
-                .seeInvisiblePlayers()
                 .updateTeamPacket()
                 .build();
 
@@ -145,6 +126,23 @@ public class Main {
         } catch (URISyntaxException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    private static void initEvents() {
+        GlobalEventHandler globalEventHandler = MinecraftServer.getGlobalEventHandler();
+        EventNode<Event> entityNode = EventNode.type("listeners", EventFilter.ALL);
+        entityNode
+                .addListener(new PlayerLogin())
+                .addListener(new PlayerDisconnect())
+                .addListener(new AsyncPlayerPreLogin())
+                .addListener(new PlayerBlockBreak())
+                .addListener(new InventoryClose())
+                .addListener(new PlayerMove())
+                .addListener(new PlayerSpawn())
+                .addListener(new PlayerUseItem())
+                .addListener(InventoryPreClickEvent.class, event -> event.setCancelled(true))
+                .addListener(PlayerSwapItemEvent.class, event -> event.setCancelled(true));
+        globalEventHandler.addChild(entityNode);
     }
 
     private static void initSQL() {

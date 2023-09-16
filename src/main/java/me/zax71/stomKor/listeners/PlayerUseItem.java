@@ -3,7 +3,6 @@ package me.zax71.stomKor.listeners;
 import me.zax71.stomKor.ParkourMap;
 import me.zax71.stomKor.ParkourPlayer;
 import net.kyori.adventure.sound.Sound;
-import net.minestom.server.MinecraftServer;
 import net.minestom.server.event.EventListener;
 import net.minestom.server.event.player.PlayerUseItemEvent;
 import net.minestom.server.potion.Potion;
@@ -64,7 +63,7 @@ public class PlayerUseItem implements EventListener<PlayerUseItemEvent> {
                         1f,
                         1f)
                 );
-                
+
                 player.getInventory().setItemStack(4, PlayerSpawn.VISIBILITY_ITEM_INVISIBLE);
                 this.hidePlayers(player);
 
@@ -77,12 +76,10 @@ public class PlayerUseItem implements EventListener<PlayerUseItemEvent> {
     }
 
     private void showPlayers(ParkourPlayer player) {
-        player.setTeam(MinecraftServer.getTeamManager().getTeam("noCollision"));
         player.updateViewerRule(viewabilityPlayer -> true);
     }
 
     private void hidePlayers(ParkourPlayer player) {
-        player.setTeam(MinecraftServer.getTeamManager().getTeam("noCollision"));
         player.updateViewerRule(viewabilityPlayer -> false);
     }
 }
