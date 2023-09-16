@@ -5,11 +5,16 @@ import me.zax71.stomKor.ParkourMap;
 import me.zax71.stomKor.ParkourPlayer;
 import me.zax71.stomKor.inventories.MapInventory;
 import net.kyori.adventure.sound.Sound;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import net.minestom.server.entity.GameMode;
 import net.minestom.server.event.EventListener;
 import net.minestom.server.event.player.PlayerMoveEvent;
 import net.minestom.server.sound.SoundEvent;
 import net.minestom.server.tag.Tag;
+import net.minestom.server.timer.Scheduler;
+import net.minestom.server.timer.Task;
+import net.minestom.server.timer.TaskSchedule;
 import org.jetbrains.annotations.NotNull;
 import org.spongepowered.configurate.serialize.SerializationException;
 
@@ -29,6 +34,7 @@ public class PlayerMove implements EventListener<PlayerMoveEvent> {
 
     /**
      * Gets a random death message from config
+     *
      * @return The selected death message. "" if none are specified
      */
     private String getRandomDeathMessage() {
@@ -55,6 +61,7 @@ public class PlayerMove implements EventListener<PlayerMoveEvent> {
     public @NotNull net.minestom.server.event.EventListener.Result run(@NotNull PlayerMoveEvent event) {
         ParkourPlayer player = (ParkourPlayer) event.getPlayer();
         Tag<Boolean> spectating = Tag.Boolean("spectating");
+        Scheduler scheduler = player.scheduler();
 
         // No checks should take place if spectating
         if (player.getTag(spectating)) {
@@ -72,7 +79,15 @@ public class PlayerMove implements EventListener<PlayerMoveEvent> {
         if (!player.getTag(Tag.Boolean("startedTimer"))) {
             player.setTag(Tag.Long("startTime"), System.currentTimeMillis());
             player.setTag(Tag.Boolean("startedTimer"), true);
-            player.sendMessage("Started Timer");
+
+            // Start the action bar timer task
+            player.setTag(Tag.Transient("actionbarTimerTask"),
+                    scheduler.submitTask(() -> {
+                        long timeTaken = System.currentTimeMillis() - player.getTag(Tag.Long("startTime"));
+                        player.sendActionBar(Component.text(toHumanReadableTime(timeTaken), NamedTextColor.WHITE));
+                        return TaskSchedule.millis(15);
+                    })
+            );
         }
 
         // See if player is below the death barrier and if so, teleport them to spawn or current checkpoint and send death message
@@ -98,6 +113,7 @@ public class PlayerMove implements EventListener<PlayerMoveEvent> {
         // See if player is at finish and has completed all checkpoints
         if (player.getPosition().sameBlock(currentMap.finishPoint())) {
             if (player.getTag(Tag.Integer("checkpoint")).equals(currentMap.checkpoints().length - 1)) {
+
                 // Set the player to spectator and set finishedMap
                 player.setTag(Tag.Boolean("spectating"), true);
                 player.setTag(Tag.Boolean("finishedMap"), true);
@@ -105,10 +121,12 @@ public class PlayerMove implements EventListener<PlayerMoveEvent> {
 
                 player.teleport(player.getPosition().add(1, 1, 0));
 
+                // Stop the action bar timer
+                Task actionbarTimerTask = player.getTag(Tag.Transient("actionbarTimerTask"));
+                actionbarTimerTask.cancel();
 
                 // Calculate time by taking away the tag we set at the beginning from time now
-                Tag<Long> startTime = Tag.Long("startTime");
-                Long timeTakenMS = System.currentTimeMillis() - player.getTag(startTime);
+                Long timeTakenMS = System.currentTimeMillis() - player.getTag(Tag.Long("startTime"));
                 player.sendMessage("Stopped Timer");
 
                 player.sendMessage("Well done! You finished " + currentMap.name() + " in " + toHumanReadableTime(timeTakenMS));

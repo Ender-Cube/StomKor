@@ -6,8 +6,9 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import org.jetbrains.annotations.NotNull;
 
-import java.text.DecimalFormat;
-import java.util.concurrent.TimeUnit;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.TimeZone;
 
 public final class ComponentUtils {
 
@@ -18,49 +19,31 @@ public final class ComponentUtils {
     private final static int CENTER_PX = 154;
 
     /**
-     * Changes a number of milliseconds to the HMMSS.SSS format
+     * Changes a number of milliseconds to the HH:mm:ss.SSS format
+     *
      * @param milliseconds The number of milliseconds
-     * @return HMMSSS.SSS formatted String
+     * @return HH:mm:ss.SSS formatted String
      */
     public static String toHumanReadableTime(Long milliseconds) {
-        if (milliseconds < 60000) {
-            return zeroPrefix(milliseconds / 1000.0) + "s";
+        Date date = new Date(milliseconds);
 
-        } else if (milliseconds < 60000*60) {
-            return zeroPrefix(TimeUnit.MILLISECONDS.toMinutes(milliseconds))
-                    + ":"
-                    + zeroPrefix(milliseconds / 1000.0 - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(milliseconds)))
-                    + "s";
+        // formatter
+        SimpleDateFormat formatter = new SimpleDateFormat("H:m:s.SSS");
+        formatter.setTimeZone(TimeZone.getTimeZone("UTC"));
 
-        } else {
-            return zeroPrefix(TimeUnit.MILLISECONDS.toHours(milliseconds))
-                    + ":"
-                    + zeroPrefix(TimeUnit.MILLISECONDS.toMinutes(milliseconds) - TimeUnit.MINUTES.toMinutes(TimeUnit.MILLISECONDS.toHours(milliseconds)))
-                    + ":"
-                    + zeroPrefix(milliseconds / 1000.0 - (TimeUnit.MILLISECONDS.toMinutes(milliseconds) - TimeUnit.MINUTES.toMinutes(TimeUnit.MILLISECONDS.toHours(milliseconds))))
-                    + "s";
-        }
+        return yeet0s(formatter.format(date)) + "s";
 
     }
 
-    private static String zeroPrefix(Double number) {
-        if (number < 10) {
-            return "0" + new DecimalFormat("#.###").format(number);
-        } else {
-            return new DecimalFormat("#.###").format(number);
-        }
-    }
+    private static String yeet0s(String input) {
+        String[] outString = input.split("\\b0:(?=\\d)");
 
-    private static String zeroPrefix(Long number) {
-        if (number < 10) {
-            return "0" + number;
-        } else {
-            return String.valueOf(number);
-        }
+        return outString[outString.length - 1];
     }
 
     /**
      * Centers a component
+     *
      * @param component The component to be centered
      * @return The component prefixed with spaces
      */
