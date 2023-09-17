@@ -9,7 +9,7 @@ version = "1.5.0"
 
 repositories {
     mavenCentral()
-    mavenLocal()
+    // mavenLocal()
     maven("https://jitpack.io")
     maven("https://repo.panda-lang.org/releases")
     maven(url = "https://s01.oss.sonatype.org/content/repositories/snapshots/") {
@@ -25,7 +25,7 @@ dependencies {
     implementation("dev.hollowcube:polar:1.3.1")
 
     // Endercube common lib
-    implementation("com.github.ender-cube:endercubecommon:c0568a8281")
+    implementation("com.github.ender-cube:endercubecommon:1e8da50caf")
 
     // HikariCP
     implementation("com.zaxxer:HikariCP:5.0.1")

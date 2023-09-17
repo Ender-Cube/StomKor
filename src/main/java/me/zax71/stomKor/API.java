@@ -4,15 +4,15 @@ import com.google.gson.Gson;
 import io.javalin.Javalin;
 import io.javalin.http.util.RateLimiter;
 
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
-import static me.zax71.stomKor.Main.*;
-import static me.zax71.stomKor.utils.ComponentUtils.toHumanReadableTime;
-import static me.zax71.stomKor.utils.ConfigUtils.getOrSetDefault;
+import static me.zax71.stomKor.Main.SQLite;
+import static me.zax71.stomKor.Main.config;
+import static me.zax71.stomKor.Main.configUtils;
+import static me.zax71.stomKor.Main.parkourMaps;
+import static net.endercube.EndercubeCommon.ComponentUtils.toHumanReadableTime;
 
 public class API {
 
@@ -31,22 +31,22 @@ public class API {
 
         // Init the server
         var app = Javalin.create()
-                .start(Integer.parseInt(getOrSetDefault(CONFIG.node("API", "port"), "8080")));
+                .start(Integer.parseInt(configUtils.getOrSetDefault(config.node("API", "port"), "8080")));
 
         // Add some API info to index
         app.get("/", ctx -> {
-            rateLimiter.incrementCounter(ctx, Integer.parseInt(getOrSetDefault(CONFIG.node("API", "rateLimit"), "50")));
+            rateLimiter.incrementCounter(ctx, Integer.parseInt(configUtils.getOrSetDefault(config.node("API", "rateLimit"), "50")));
             ctx.result("""
                     Welcome to the Endercube Parkour API,
-                    
+                                        
                     Here are some examples of how to use it:
-                    
+                                        
                     Get a leaderboard for a specific map
                     /api/v1/leaderboard/<map>/<count>
-                    
+                                        
                     See a leaderboard for a specific player and map
                     /api/v1/playerLeaderboard/<map>/<UUID>/<count>
-                    
+                                        
                     See a list of all maps
                     /api/v1/maps
                     """);
@@ -54,13 +54,13 @@ public class API {
 
         // See a list of all maps
         app.get("/api/v1/maps", ctx -> {
-            rateLimiter.incrementCounter(ctx, Integer.parseInt(getOrSetDefault(CONFIG.node("API", "rateLimit"), "50")));
+            rateLimiter.incrementCounter(ctx, Integer.parseInt(configUtils.getOrSetDefault(config.node("API", "rateLimit"), "50")));
             ctx.result(gson.toJson(mapNames));
         });
 
         // Get a leaderboard for a specific map
         app.get("/api/v1/leaderboard/{map}/{count}", ctx -> {
-            rateLimiter.incrementCounter(ctx, Integer.parseInt(getOrSetDefault(CONFIG.node("API", "rateLimit"), "50")));
+            rateLimiter.incrementCounter(ctx, Integer.parseInt(configUtils.getOrSetDefault(config.node("API", "rateLimit"), "50")));
 
             String map = ctx.pathParam("map");
 
@@ -91,7 +91,7 @@ public class API {
 
         // See a leaderboard for a specific player and map
         app.get("/api/v1/playerLeaderboard/{map}/{UUID}/{count}", ctx -> {
-            rateLimiter.incrementCounter(ctx, Integer.parseInt(getOrSetDefault(CONFIG.node("API", "rateLimit"), "50")));
+            rateLimiter.incrementCounter(ctx, Integer.parseInt(configUtils.getOrSetDefault(config.node("API", "rateLimit"), "50")));
             String map = ctx.pathParam("map");
             String UUID = ctx.pathParam("UUID");
 

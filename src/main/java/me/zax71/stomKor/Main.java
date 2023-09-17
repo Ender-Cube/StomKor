@@ -18,6 +18,7 @@ import me.zax71.stomKor.listeners.PlayerSpawn;
 import me.zax71.stomKor.listeners.PlayerUseItem;
 import me.zax71.stomKor.listeners.RedisSub;
 import me.zax71.stomKor.utils.FullbrightDimension;
+import net.endercube.EndercubeCommon.ConfigUtils;
 import net.endercube.EndercubeCommon.SQLWrapper;
 import net.hollowcube.polar.PolarLoader;
 import net.minestom.server.MinecraftServer;
@@ -36,6 +37,7 @@ import net.minestom.server.world.biomes.Biome;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.spongepowered.configurate.CommentedConfigurationNode;
+import org.spongepowered.configurate.ConfigurateException;
 import org.spongepowered.configurate.ConfigurationNode;
 import org.spongepowered.configurate.hocon.HoconConfigurationLoader;
 import redis.clients.jedis.Jedis;
@@ -43,25 +45,22 @@ import redis.clients.jedis.Jedis;
 import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
 import static me.zax71.stomKor.API.initAPI;
-import static me.zax71.stomKor.utils.ConfigUtils.getItemStackFromConfig;
-import static me.zax71.stomKor.utils.ConfigUtils.getOrSetDefault;
-import static me.zax71.stomKor.utils.ConfigUtils.getPosFromConfig;
-import static me.zax71.stomKor.utils.ConfigUtils.getPosListFromConfig;
-import static me.zax71.stomKor.utils.ConfigUtils.initConfig;
 
 public class Main {
-    public static InstanceContainer LIMBO;
-    public static CommentedConfigurationNode CONFIG;
-
-    public static HoconConfigurationLoader LOADER;
+    public static InstanceContainer limboInstance;
+    public static CommentedConfigurationNode config;
+    public static HoconConfigurationLoader loader;
+    public static ConfigUtils configUtils;
     public static List<ParkourMap> parkourMaps = new ArrayList<>();
     public static List<Map<String, String>> playerMapQueue = new ArrayList<>();
     public static SQLWrapper SQLite;
@@ -84,10 +83,10 @@ public class Main {
         MinecraftServer.getConnectionManager().setPlayerProvider(ParkourPlayer::new);
 
         // Online mode or velocity?
-        switch (getOrSetDefault(CONFIG.node("connection", "mode"), "online")) {
+        switch (configUtils.getOrSetDefault(config.node("connection", "mode"), "online")) {
             case "online" -> MojangAuth.init();
             case "velocity" -> {
-                String velocitySecret = getOrSetDefault(CONFIG.node("connection", "velocitySecret"), "");
+                String velocitySecret = configUtils.getOrSetDefault(config.node("connection", "velocitySecret"), "");
                 if (!Objects.equals(velocitySecret, "")) {
                     VelocityProxy.enable(velocitySecret);
                 }
@@ -95,8 +94,8 @@ public class Main {
         }
 
         // Start the server on port 25565
-        minecraftServer.start("0.0.0.0", Integer.parseInt(getOrSetDefault(CONFIG.node("connection", "port"), "25565")));
-        logger.info("Starting server on port " + Integer.parseInt(getOrSetDefault(CONFIG.node("connection", "port"), "25565")) + " with " + getOrSetDefault(CONFIG.node("connection", "mode"), "online") + " encryption");
+        minecraftServer.start("0.0.0.0", Integer.parseInt(configUtils.getOrSetDefault(config.node("connection", "port"), "25565")));
+        logger.info("Starting server on port " + Integer.parseInt(configUtils.getOrSetDefault(config.node("connection", "port"), "25565")) + " with " + configUtils.getOrSetDefault(config.node("connection", "mode"), "online") + " encryption");
 
         // Create the team to turn off collisions
         MinecraftServer.getTeamManager().createBuilder("noCollision")
@@ -128,6 +127,34 @@ public class Main {
         }
     }
 
+    private static void initConfig() {
+        // Create config directories
+        if (!Files.exists(getPath("config/worlds/maps"))) {
+            logger.info("Creating configuration files");
+
+            try {
+                Files.createDirectories(getPath("config/worlds/"));
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+        loader = HoconConfigurationLoader.builder()
+                .path(getPath("config/config.conf"))
+                .build();
+
+        try {
+            config = loader.load();
+        } catch (ConfigurateException e) {
+            logger.error("An error occurred while loading config.conf: " + e.getMessage());
+            logger.error(Arrays.toString(e.getStackTrace()));
+            MinecraftServer.stopCleanly();
+        }
+
+        // Init ConfigUtils class
+        configUtils = new ConfigUtils(loader, config);
+    }
+
     private static void initEvents() {
         GlobalEventHandler globalEventHandler = MinecraftServer.getGlobalEventHandler();
         EventNode<Event> entityNode = EventNode.type("listeners", EventFilter.ALL);
@@ -148,16 +175,16 @@ public class Main {
     private static void initSQL() {
         HikariDataSource dataSource = new HikariDataSource();
         dataSource.setJdbcUrl("jdbc:mariadb://mariadb:3306/endercube?createDatabaseIfNotExist=true");
-        dataSource.setUsername(getOrSetDefault(CONFIG.node("database", "mariaDB", "username"), ""));
-        dataSource.setPassword(getOrSetDefault(CONFIG.node("database", "mariaDB", "password"), ""));
+        dataSource.setUsername(configUtils.getOrSetDefault(config.node("database", "mariaDB", "username"), ""));
+        dataSource.setPassword(configUtils.getOrSetDefault(config.node("database", "mariaDB", "password"), ""));
         SQLite = new SQLWrapper(dataSource);
     }
 
     private static void redisLogParkourMaps() {
         // Init Redis
         Jedis redis = new Jedis(
-                getOrSetDefault(CONFIG.node("database", "redis", "hostname"), "localhost"),
-                Integer.parseInt(getOrSetDefault(CONFIG.node("database", "redis", "port"), "6379"))
+                configUtils.getOrSetDefault(config.node("database", "redis", "hostname"), "localhost"),
+                Integer.parseInt(configUtils.getOrSetDefault(config.node("database", "redis", "port"), "6379"))
         );
 
         // Create a list of serialised parkour maps
@@ -176,8 +203,8 @@ public class Main {
     private static void initRedis() {
         // Init Redis
         Jedis redis = new Jedis(
-                getOrSetDefault(CONFIG.node("database", "redis", "hostname"), "localhost"),
-                Integer.parseInt(getOrSetDefault(CONFIG.node("database", "redis", "port"), "6379"))
+                configUtils.getOrSetDefault(config.node("database", "redis", "hostname"), "localhost"),
+                Integer.parseInt(configUtils.getOrSetDefault(config.node("database", "redis", "port"), "6379"))
         );
 
         // Create subscriber thread
@@ -207,10 +234,10 @@ public class Main {
         );
 
         // Create limbo Instance
-        LIMBO = MinecraftServer.getInstanceManager().createInstanceContainer(
+        limboInstance = MinecraftServer.getInstanceManager().createInstanceContainer(
                 FullbrightDimension.INSTANCE
         );
-        LIMBO.setTimeRate(0);
+        limboInstance.setTimeRate(0);
 
         // Load all the maps
         for (File worldFile : Objects.requireNonNull(getPath("config/worlds/maps").toFile().listFiles())) {
@@ -219,7 +246,7 @@ public class Main {
             String name = worldFile.getName();
             name = name.substring(0, name.length() - 6);
 
-            ConfigurationNode configNode = CONFIG.node("maps", name);
+            ConfigurationNode configNode = config.node("maps", name);
 
             logger.info("loading map " + name);
             try {
@@ -230,11 +257,11 @@ public class Main {
                         ),
                         name,
                         configNode.node("difficulty").getString(),
-                        getPosListFromConfig(configNode.node("checkpoints")),
-                        getPosFromConfig(configNode.node("spawn")),
-                        getPosFromConfig(configNode.node("finish")),
+                        configUtils.getPosListFromConfig(configNode.node("checkpoints")),
+                        configUtils.getPosFromConfig(configNode.node("spawn")),
+                        configUtils.getPosFromConfig(configNode.node("finish")),
                         configNode.node("death-y").get(Short.class),
-                        getItemStackFromConfig(configNode.node("UIMaterial")),
+                        configUtils.getItemStackFromConfig(configNode.node("UIMaterial")),
                         configNode.node("order").getInt()
                 ));
             } catch (IOException e) {

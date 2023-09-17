@@ -13,17 +13,28 @@ import net.minestom.server.inventory.Inventory;
 import net.minestom.server.inventory.InventoryType;
 import net.minestom.server.inventory.click.ClickType;
 import net.minestom.server.inventory.condition.InventoryConditionResult;
-import net.minestom.server.item.*;
+import net.minestom.server.item.Enchantment;
+import net.minestom.server.item.ItemHideFlag;
+import net.minestom.server.item.ItemMeta;
+import net.minestom.server.item.ItemStack;
+import net.minestom.server.item.Material;
 import net.minestom.server.sound.SoundEvent;
 import net.minestom.server.tag.Tag;
 import org.jetbrains.annotations.Nullable;
 import redis.clients.jedis.Jedis;
 
 import java.lang.reflect.Type;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Objects;
 
-import static me.zax71.stomKor.Main.*;
-import static me.zax71.stomKor.utils.ConfigUtils.getOrSetDefault;
+import static me.zax71.stomKor.Main.config;
+import static me.zax71.stomKor.Main.configUtils;
+import static me.zax71.stomKor.Main.logger;
+import static me.zax71.stomKor.Main.parkourMaps;
 
 public class MapInventory {
     private final Inventory inventory;
@@ -200,8 +211,8 @@ public class MapInventory {
     private List<HashMap<String, String>> getParkourMapsFromRedis() {
         // Init Redis
         Jedis redis = new Jedis(
-                getOrSetDefault(CONFIG.node("database", "redis", "hostname"), "localhost"),
-                Integer.parseInt(getOrSetDefault(CONFIG.node("database", "redis", "port"), "6379"))
+                configUtils.getOrSetDefault(config.node("database", "redis", "hostname"), "localhost"),
+                Integer.parseInt(configUtils.getOrSetDefault(config.node("database", "redis", "port"), "6379"))
         );
 
 

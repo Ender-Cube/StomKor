@@ -9,16 +9,12 @@ public class LogbackHighlightConfig extends ForegroundCompositeConverterBase<ILo
     @Override
     protected String getForegroundColorCode(ILoggingEvent event) {
         Level level = event.getLevel();
-        switch (level.toInt()) {
-            case Level.ERROR_INT:
-                return ANSIConstants.BOLD + ANSIConstants.RED_FG;
-            case Level.WARN_INT:
-                return ANSIConstants.BOLD + ANSIConstants.YELLOW_FG;
-            case Level.INFO_INT:
-                return ANSIConstants.BLUE_FG;
-            default:
-                return ANSIConstants.DEFAULT_FG;
-        }
+        return switch (level.toInt()) {
+            case Level.ERROR_INT -> ANSIConstants.BOLD + ANSIConstants.RED_FG;
+            case Level.WARN_INT -> ANSIConstants.BOLD + ANSIConstants.YELLOW_FG;
+            case Level.INFO_INT -> ANSIConstants.BLUE_FG;
+            default -> ANSIConstants.DEFAULT_FG;
+        };
     }
 
 }

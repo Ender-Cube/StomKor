@@ -20,9 +20,9 @@ import org.spongepowered.configurate.serialize.SerializationException;
 
 import java.util.Random;
 
-import static me.zax71.stomKor.Main.CONFIG;
 import static me.zax71.stomKor.Main.SQLite;
-import static me.zax71.stomKor.utils.ComponentUtils.toHumanReadableTime;
+import static me.zax71.stomKor.Main.config;
+import static net.endercube.EndercubeCommon.ComponentUtils.toHumanReadableTime;
 import static net.minestom.server.event.EventListener.Result.SUCCESS;
 
 public class PlayerMove implements EventListener<PlayerMoveEvent> {
@@ -41,7 +41,7 @@ public class PlayerMove implements EventListener<PlayerMoveEvent> {
         // Get a random death message from config
         String[] deathMessages;
         try {
-            deathMessages = CONFIG.node("messages", "deathMessages").get(new TypeToken<>() {
+            deathMessages = config.node("messages", "deathMessages").get(new TypeToken<>() {
             });
         } catch (SerializationException e) {
             throw new RuntimeException(e);
