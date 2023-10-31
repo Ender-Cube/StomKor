@@ -20,9 +20,9 @@ import org.spongepowered.configurate.serialize.SerializationException;
 
 import java.util.Random;
 
-import static me.zax71.stomKor.Main.SQLite;
+import static me.zax71.stomKor.Main.SQL;
 import static me.zax71.stomKor.Main.config;
-import static net.endercube.EndercubeCommon.ComponentUtils.toHumanReadableTime;
+import static net.endercube.EndercubeCommon.utils.ComponentUtils.toHumanReadableTime;
 import static net.minestom.server.event.EventListener.Result.SUCCESS;
 
 public class PlayerMove implements EventListener<PlayerMoveEvent> {
@@ -126,11 +126,11 @@ public class PlayerMove implements EventListener<PlayerMoveEvent> {
                 actionbarTimerTask.cancel();
 
                 // Calculate time by taking away the tag we set at the beginning from time now
-                Long timeTakenMS = System.currentTimeMillis() - player.getTag(Tag.Long("startTime"));
+                long timeTakenMS = System.currentTimeMillis() - player.getTag(Tag.Long("startTime"));
                 player.sendMessage("Stopped Timer");
 
                 player.sendMessage("Well done! You finished " + currentMap.name() + " in " + toHumanReadableTime(timeTakenMS));
-                SQLite.addTime(player, currentMap.name(), timeTakenMS);
+                SQL.addTime(player, currentMap.name(), timeTakenMS);
 
 
                 player.openInventory(MapInventory.getInventory());

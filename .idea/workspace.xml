@@ -4,18 +4,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="4d97943a-8f2a-4d65-84f3-b8137f62bbc6" name="Changes" comment="">
+    <list default="true" id="4d97943a-8f2a-4d65-84f3-b8137f62bbc6" name="Changes" comment="Switch to using game SDK">
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle.kts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/me/zax71/stomKor/API.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/zax71/stomKor/API.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/me/zax71/stomKor/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/zax71/stomKor/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/zax71/stomKor/commands/ReloadCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/zax71/stomKor/commands/ReloadCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/zax71/stomKor/inventories/MapInventory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/zax71/stomKor/inventories/MapInventory.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/zax71/stomKor/listeners/PlayerBlockBreak.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/zax71/stomKor/listeners/PlayerBlockBreak.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/me/zax71/stomKor/listeners/PlayerMove.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/zax71/stomKor/listeners/PlayerMove.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/zax71/stomKor/utils/ComponentUtils.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/zax71/stomKor/utils/ConfigUtils.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/zax71/stomKor/utils/LogbackHighlightConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/zax71/stomKor/utils/LogbackHighlightConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/logback.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/logback.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -35,12 +31,7 @@
         </task>
         <projects_view>
           <tree_state>
-            <expand>
-              <path>
-                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
-                <item name="StomKor" type="f1a62948:ProjectNode" />
-              </path>
-            </expand>
+            <expand />
             <select />
           </tree_state>
         </projects_view>
@@ -86,26 +77,27 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "TODO_SCOPE": "All Places",
-    "WebServerToolWindowFactoryState": "false",
-    "git-widget-placeholder": "main",
-    "last_opened_file_path": "/home/zax/Documents/coding/Java/Minestom/lightHub",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "settings.editor.selected.configurable": "actions.on.save",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;TODO_SCOPE&quot;: &quot;All Places&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/home/zax/Documents/coding/Java/Minestom/lightHub&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/src/main/resources" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="me.zax71.stomKor.utils" />
       <recent name="me.zax71.stomKor.inventories" />
     </key>
   </component>
@@ -202,7 +194,16 @@
       <workItem from="1694862185172" duration="201000" />
       <workItem from="1694862485595" duration="2366000" />
       <workItem from="1694864972723" duration="5547000" />
-      <workItem from="1694967502020" duration="3594000" />
+      <workItem from="1694967502020" duration="6401000" />
+      <workItem from="1695233116597" duration="162000" />
+      <workItem from="1695233312470" duration="340000" />
+      <workItem from="1696008738637" duration="1615000" />
+      <workItem from="1696758821355" duration="1887000" />
+      <workItem from="1697887287499" duration="1472000" />
+      <workItem from="1697890774891" duration="24000" />
+      <workItem from="1698055827729" duration="5759000" />
+      <workItem from="1698761594681" duration="1000" />
+      <workItem from="1698762253448" duration="3350000" />
     </task>
     <task id="LOCAL-00001" summary="Initial commit (broken rn)">
       <created>1682016231988</created>
@@ -516,7 +517,15 @@
       <option name="project" value="LOCAL" />
       <updated>1694877731650</updated>
     </task>
-    <option name="localTasksCounter" value="43" />
+    <task id="LOCAL-00043" summary="Move ComponentUtils.java and ConfigUtils.java to EndercubeCommon">
+      <option name="closed" value="true" />
+      <created>1694971134820</created>
+      <option name="number" value="00043" />
+      <option name="presentableId" value="LOCAL-00043" />
+      <option name="project" value="LOCAL" />
+      <updated>1694971134820</updated>
+    </task>
+    <option name="localTasksCounter" value="44" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -535,8 +544,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
-    <MESSAGE value="Added /spectate command" />
-    <MESSAGE value="Update to 1.19.4 and bump version (I'm sure it must be time by now)" />
     <MESSAGE value="Add proxy support" />
     <MESSAGE value="Add an API " />
     <MESSAGE value="Add an API route to get maps and bump version (should have done that last commit, eh)" />
@@ -560,7 +567,9 @@
     <MESSAGE value="Refactor Main.java" />
     <MESSAGE value="Add" />
     <MESSAGE value="Add action bar timer" />
-    <option name="LAST_COMMIT_MESSAGE" value="Add action bar timer" />
+    <MESSAGE value="Move ComponentUtils.java and ConfigUtils.java to EndercubeCommon" />
+    <MESSAGE value="Update E" />
+    <option name="LAST_COMMIT_MESSAGE" value="Update E" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

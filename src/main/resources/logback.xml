@@ -4,7 +4,7 @@
 
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
-            <pattern>%d{HH:mm:ss} %highlightex([%level]): %highlightex(%msg)</pattern>
+            <pattern>%d{HH:mm:ss} %highlightex([%level]): %highlightex(%msg%n)</pattern>
         </encoder>
     </appender>
 

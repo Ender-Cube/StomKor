@@ -25,7 +25,8 @@ dependencies {
     implementation("dev.hollowcube:polar:1.3.1")
 
     // Endercube common lib
-    implementation("com.github.ender-cube:endercubecommon:1e8da50caf")
+    implementation("com.github.ender-cube:endercubecommon:v2.0.0")
+    // implementation("net.endercube:EndercubeCommon:2.0.0")
 
     // HikariCP
     implementation("com.zaxxer:HikariCP:5.0.1")

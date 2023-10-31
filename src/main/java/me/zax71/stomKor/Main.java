@@ -1,10 +1,7 @@
 package me.zax71.stomKor;
 
 import com.google.gson.Gson;
-import com.zaxxer.hikari.HikariDataSource;
 import dev.rollczi.litecommands.minestom.LiteMinestomFactory;
-import me.zax71.stomKor.blocks.Sign;
-import me.zax71.stomKor.blocks.Skull;
 import me.zax71.stomKor.commands.ReloadCommand;
 import me.zax71.stomKor.commands.arguments.ParkourMapArgument;
 import me.zax71.stomKor.commands.arguments.PlayerArgument;
@@ -18,18 +15,13 @@ import me.zax71.stomKor.listeners.PlayerSpawn;
 import me.zax71.stomKor.listeners.PlayerUseItem;
 import me.zax71.stomKor.listeners.RedisSub;
 import me.zax71.stomKor.utils.FullbrightDimension;
-import net.endercube.EndercubeCommon.ConfigUtils;
-import net.endercube.EndercubeCommon.SQLWrapper;
+import net.endercube.EndercubeCommon.EndercubeGame;
+import net.endercube.EndercubeCommon.utils.ConfigUtils;
+import net.endercube.EndercubeCommon.utils.SQLWrapper;
 import net.hollowcube.polar.PolarLoader;
 import net.minestom.server.MinecraftServer;
-import net.minestom.server.event.Event;
-import net.minestom.server.event.EventFilter;
-import net.minestom.server.event.EventNode;
-import net.minestom.server.event.GlobalEventHandler;
 import net.minestom.server.event.inventory.InventoryPreClickEvent;
 import net.minestom.server.event.player.PlayerSwapItemEvent;
-import net.minestom.server.extras.MojangAuth;
-import net.minestom.server.extras.velocity.VelocityProxy;
 import net.minestom.server.instance.InstanceContainer;
 import net.minestom.server.network.packet.server.play.TeamsPacket;
 import net.minestom.server.utils.NamespaceID;
@@ -37,18 +29,13 @@ import net.minestom.server.world.biomes.Biome;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.spongepowered.configurate.CommentedConfigurationNode;
-import org.spongepowered.configurate.ConfigurateException;
 import org.spongepowered.configurate.ConfigurationNode;
-import org.spongepowered.configurate.hocon.HoconConfigurationLoader;
 import redis.clients.jedis.Jedis;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.URISyntaxException;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -57,45 +44,33 @@ import java.util.Objects;
 import static me.zax71.stomKor.API.initAPI;
 
 public class Main {
-    public static InstanceContainer limboInstance;
     public static CommentedConfigurationNode config;
-    public static HoconConfigurationLoader loader;
     public static ConfigUtils configUtils;
     public static List<ParkourMap> parkourMaps = new ArrayList<>();
     public static List<Map<String, String>> playerMapQueue = new ArrayList<>();
-    public static SQLWrapper SQLite;
+    public static SQLWrapper SQL;
     public static final Logger logger = LoggerFactory.getLogger(Main.class);
 
     public static void main(String[] args) {
-        initConfig();
+        EndercubeGame parkourGame = new EndercubeGame();
 
-        // Server Initialization
-        MinecraftServer minecraftServer = MinecraftServer.init();
+        parkourGame
+                .addEvent(new PlayerLogin())
+                .addEvent(new PlayerDisconnect())
+                .addEvent(new AsyncPlayerPreLogin())
+                .addEvent(new PlayerBlockBreak())
+                .addEvent(new InventoryClose())
+                .addEvent(new PlayerMove())
+                .addEvent(new PlayerSpawn())
+                .addEvent(new PlayerUseItem())
+                .addEvent(InventoryPreClickEvent.class, event -> event.setCancelled(true))
+                .addEvent(PlayerSwapItemEvent.class, event -> event.setCancelled(true))
+                .setPlayer(ParkourPlayer::new)
+                .build();
 
-        // Register events
-        initEvents();
-
-        // Register block handlers
-        MinecraftServer.getBlockManager().registerHandler(NamespaceID.from("minecraft:sign"), Sign::new);
-        MinecraftServer.getBlockManager().registerHandler(NamespaceID.from("minecraft:skull"), Skull::new);
-
-        // Register custom player
-        MinecraftServer.getConnectionManager().setPlayerProvider(ParkourPlayer::new);
-
-        // Online mode or velocity?
-        switch (configUtils.getOrSetDefault(config.node("connection", "mode"), "online")) {
-            case "online" -> MojangAuth.init();
-            case "velocity" -> {
-                String velocitySecret = configUtils.getOrSetDefault(config.node("connection", "velocitySecret"), "");
-                if (!Objects.equals(velocitySecret, "")) {
-                    VelocityProxy.enable(velocitySecret);
-                }
-            }
-        }
-
-        // Start the server on port 25565
-        minecraftServer.start("0.0.0.0", Integer.parseInt(configUtils.getOrSetDefault(config.node("connection", "port"), "25565")));
-        logger.info("Starting server on port " + Integer.parseInt(configUtils.getOrSetDefault(config.node("connection", "port"), "25565")) + " with " + configUtils.getOrSetDefault(config.node("connection", "mode"), "online") + " encryption");
+        config = parkourGame.getConfig();
+        configUtils = parkourGame.getConfigUtils();
+        SQL = parkourGame.getSQL();
 
         // Create the team to turn off collisions
         MinecraftServer.getTeamManager().createBuilder("noCollision")
@@ -103,81 +78,10 @@ public class Main {
                 .updateTeamPacket()
                 .build();
 
-        // Add uncaught exception handler
-        Thread.currentThread().setUncaughtExceptionHandler((thread, throwable) -> {
-            logger.error("Uncaught exception: " + throwable.getMessage());
-            throwable.printStackTrace();
-        });
-
         initWorlds();
-        initSQL();
         initRedis();
         initCommands();
         initAPI();
-
-
-    }
-
-    public static Path getPath(String path) {
-        try {
-            return Path.of(new File(Main.class.getProtectionDomain().getCodeSource().getLocation()
-                    .toURI()).getPath()).getParent().resolve(path);
-        } catch (URISyntaxException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    private static void initConfig() {
-        // Create config directories
-        if (!Files.exists(getPath("config/worlds/maps"))) {
-            logger.info("Creating configuration files");
-
-            try {
-                Files.createDirectories(getPath("config/worlds/"));
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-        }
-
-        loader = HoconConfigurationLoader.builder()
-                .path(getPath("config/config.conf"))
-                .build();
-
-        try {
-            config = loader.load();
-        } catch (ConfigurateException e) {
-            logger.error("An error occurred while loading config.conf: " + e.getMessage());
-            logger.error(Arrays.toString(e.getStackTrace()));
-            MinecraftServer.stopCleanly();
-        }
-
-        // Init ConfigUtils class
-        configUtils = new ConfigUtils(loader, config);
-    }
-
-    private static void initEvents() {
-        GlobalEventHandler globalEventHandler = MinecraftServer.getGlobalEventHandler();
-        EventNode<Event> entityNode = EventNode.type("listeners", EventFilter.ALL);
-        entityNode
-                .addListener(new PlayerLogin())
-                .addListener(new PlayerDisconnect())
-                .addListener(new AsyncPlayerPreLogin())
-                .addListener(new PlayerBlockBreak())
-                .addListener(new InventoryClose())
-                .addListener(new PlayerMove())
-                .addListener(new PlayerSpawn())
-                .addListener(new PlayerUseItem())
-                .addListener(InventoryPreClickEvent.class, event -> event.setCancelled(true))
-                .addListener(PlayerSwapItemEvent.class, event -> event.setCancelled(true));
-        globalEventHandler.addChild(entityNode);
-    }
-
-    private static void initSQL() {
-        HikariDataSource dataSource = new HikariDataSource();
-        dataSource.setJdbcUrl("jdbc:mariadb://mariadb:3306/endercube?createDatabaseIfNotExist=true");
-        dataSource.setUsername(configUtils.getOrSetDefault(config.node("database", "mariaDB", "username"), ""));
-        dataSource.setPassword(configUtils.getOrSetDefault(config.node("database", "mariaDB", "password"), ""));
-        SQLite = new SQLWrapper(dataSource);
     }
 
     private static void redisLogParkourMaps() {
@@ -234,13 +138,13 @@ public class Main {
         );
 
         // Create limbo Instance
-        limboInstance = MinecraftServer.getInstanceManager().createInstanceContainer(
+        InstanceContainer limboInstance = MinecraftServer.getInstanceManager().createInstanceContainer(
                 FullbrightDimension.INSTANCE
         );
         limboInstance.setTimeRate(0);
 
         // Load all the maps
-        for (File worldFile : Objects.requireNonNull(getPath("config/worlds/maps").toFile().listFiles())) {
+        for (File worldFile : Objects.requireNonNull(EndercubeGame.getPath("config/worlds/maps").toFile().listFiles())) {
 
             // Get the name of the map by removing .polar from the file name
             String name = worldFile.getName();

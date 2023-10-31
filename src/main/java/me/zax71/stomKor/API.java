@@ -8,11 +8,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-import static me.zax71.stomKor.Main.SQLite;
+import static me.zax71.stomKor.Main.SQL;
 import static me.zax71.stomKor.Main.config;
 import static me.zax71.stomKor.Main.configUtils;
 import static me.zax71.stomKor.Main.parkourMaps;
-import static net.endercube.EndercubeCommon.ComponentUtils.toHumanReadableTime;
+import static net.endercube.EndercubeCommon.utils.ComponentUtils.toHumanReadableTime;
 
 public class API {
 
@@ -77,8 +77,8 @@ public class API {
                 return;
             }
 
-            Long time = SQLite.getTimeOverall(map, count);
-            String player = SQLite.getPlayerOverall(map, 1);
+            Long time = SQL.getTimeOverall(map, count);
+            String player = SQL.getPlayerOverall(map, 1);
 
 
             if (time == null) {
@@ -108,7 +108,7 @@ public class API {
                 return;
             }
 
-            Long time = SQLite.getTimeUUID(UUID, map, count);
+            Long time = SQL.getTimeUUID(UUID, map, count);
             if (time == null) {
                 ctx.result("Error: No database entry matching request").status(400);
                 return;
