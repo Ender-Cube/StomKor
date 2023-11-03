@@ -4,14 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="4d97943a-8f2a-4d65-84f3-b8137f62bbc6" name="Changes" comment="Switch to using game SDK">
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+    <list default="true" id="4d97943a-8f2a-4d65-84f3-b8137f62bbc6" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle.kts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/zax71/stomKor/API.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/zax71/stomKor/API.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/me/zax71/stomKor/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/zax71/stomKor/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/zax71/stomKor/listeners/PlayerMove.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/zax71/stomKor/listeners/PlayerMove.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/logback.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/logback.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -77,21 +73,22 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;TODO_SCOPE&quot;: &quot;All Places&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/home/zax/Documents/coding/Java/Minestom/lightHub&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "TODO_SCOPE": "All Places",
+    "WebServerToolWindowFactoryState": "false",
+    "git-widget-placeholder": "main",
+    "last_opened_file_path": "/home/zax/Documents/coding/Java/Minestom/lightHub",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "preferences.pluginManager",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/src/main/resources" />
@@ -101,7 +98,7 @@
       <recent name="me.zax71.stomKor.inventories" />
     </key>
   </component>
-  <component name="RunManager" selected="Docker.dockerfile">
+  <component name="RunManager" selected="Gradle.StomKor [build]">
     <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="me.zax71.stomKor.Main" />
       <module name="StomKor.main" />
@@ -116,6 +113,28 @@
       </method>
     </configuration>
     <configuration name="Build" type="GradleRunConfiguration" factoryName="Gradle">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" value="" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value="build" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <RunAsTest>false</RunAsTest>
+      <method v="2" />
+    </configuration>
+    <configuration name="StomKor [build]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
@@ -172,10 +191,12 @@
       <item itemvalue="Application.Main" />
       <item itemvalue="Docker.dockerfile" />
       <item itemvalue="Gradle.Build" />
+      <item itemvalue="Gradle.StomKor [build]" />
       <item itemvalue="Kotlin script (Beta).build.gradle.kts" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Gradle.StomKor [build]" />
         <item itemvalue="Docker.dockerfile" />
         <item itemvalue="Kotlin script (Beta).build.gradle.kts" />
         <item itemvalue="Application.Main" />
@@ -203,7 +224,12 @@
       <workItem from="1697890774891" duration="24000" />
       <workItem from="1698055827729" duration="5759000" />
       <workItem from="1698761594681" duration="1000" />
-      <workItem from="1698762253448" duration="3350000" />
+      <workItem from="1698762253448" duration="3530000" />
+      <workItem from="1698768772024" duration="1048000" />
+      <workItem from="1698952189945" duration="947000" />
+      <workItem from="1699012261580" duration="22000" />
+      <workItem from="1699013228121" duration="22000" />
+      <workItem from="1699013442197" duration="676000" />
     </task>
     <task id="LOCAL-00001" summary="Initial commit (broken rn)">
       <created>1682016231988</created>
@@ -525,7 +551,15 @@
       <option name="project" value="LOCAL" />
       <updated>1694971134820</updated>
     </task>
-    <option name="localTasksCounter" value="44" />
+    <task id="LOCAL-00044" summary="Switch to using game SDK">
+      <option name="closed" value="true" />
+      <created>1698768464895</created>
+      <option name="number" value="00044" />
+      <option name="presentableId" value="LOCAL-00044" />
+      <option name="project" value="LOCAL" />
+      <updated>1698768464895</updated>
+    </task>
+    <option name="localTasksCounter" value="45" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -544,7 +578,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
-    <MESSAGE value="Add proxy support" />
     <MESSAGE value="Add an API " />
     <MESSAGE value="Add an API route to get maps and bump version (should have done that last commit, eh)" />
     <MESSAGE value="Add Docker support" />
@@ -569,7 +602,8 @@
     <MESSAGE value="Add action bar timer" />
     <MESSAGE value="Move ComponentUtils.java and ConfigUtils.java to EndercubeCommon" />
     <MESSAGE value="Update E" />
-    <option name="LAST_COMMIT_MESSAGE" value="Update E" />
+    <MESSAGE value="Switch to using game SDK" />
+    <option name="LAST_COMMIT_MESSAGE" value="Switch to using game SDK" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

@@ -66,6 +66,7 @@ public class Main {
                 .addEvent(InventoryPreClickEvent.class, event -> event.setCancelled(true))
                 .addEvent(PlayerSwapItemEvent.class, event -> event.setCancelled(true))
                 .setPlayer(ParkourPlayer::new)
+                .setSQLName("playerTimes")
                 .build();
 
         config = parkourGame.getConfig();
