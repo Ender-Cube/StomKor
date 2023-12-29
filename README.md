@@ -1,3 +1,5 @@
+This project has been archived in favour of [Ender-Cube/Endercube](https://github.com/Ender-cube/Endercube)
+
 # StomKor
 
 StomKor is a Parkour server written from scratch in [Minestom](https://minestom.net) to be configurable and performant
